@@ -88,7 +88,8 @@
                                         </div>
                                         <div class="price">
                                             <h4>Precio:</h4>
-                                            <p>S/. <strong id="idPrecio"> <fmt:formatNumber type = "number" minFractionDigits="2" maxFractionDigits = "2" value = "${requestScope.objProducto.precio}"/> 
+                                            <input hidden="" value="${requestScope.objProducto.precio}" id="idPrecio"/>
+                                            <p>S/. <strong id=""> <fmt:formatNumber type = "number" minFractionDigits="2" maxFractionDigits = "2" value = "${requestScope.objProducto.precio}"/> 
                                             	</strong> <!--<span>$149</span>-->
                                             </p>
                                         </div>
@@ -103,7 +104,8 @@
                                         </div>
                                         <div class="p-size">
                                             <h4>Stock:</h4>
-                                            <div class="btn-group btn-group-sm" id="idStock">
+                                            <input hidden="" value="${requestScope.objProducto.stock}" id="idStock"/>
+                                            <div class="btn-group btn-group-sm" id="">
                                                 ${requestScope.objProducto.stock}
                                             </div> 
                                         </div>

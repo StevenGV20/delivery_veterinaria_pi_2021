@@ -7,12 +7,12 @@ class Carrito {
         
 	        let cod=$("#idCodigo").val();
 	        let nom=$("#idNombre").text();
-	        let pre=$("#idPrecio").text();
+	        let pre=$("#idPrecio").val();
 	        let can = $("#idCantidad").val();
 	        let foto1=$("#idFoto1").attr("src");
 	        let foto2=$("#idFoto2").attr("src");
 	        let foto3=$("#idFoto3").attr("src");
-	    	let stock=$("#idStock").text();
+	    	let stock=$("#idStock").val();
         	
              //const producto = e.target.parentElement.parentElement;
             /*const producto = "<div>"+cod+"</div><div>"+nom+"</div><div>"+pre

@@ -107,8 +107,10 @@
 	                                    </table>
 	                                    <a href="#" id="vaciar-carrito" class="btn btn-primary btn-block">Vaciar Carrito</a>   
 	                                    <c:if test="${sessionScope.objUsuario==null}">
+	                                    	<button id="procesar-pedido" hidden=""></button>
 		                                   		<small class="col-md-12 text-light text-center">Para continuar Inicie Sesion o Registrese</small>
-			                                    <a href="verLogin" class="btn btn-info btn-block nav-link" id="#" onclick="window.location='verLogin'">Iniciar sesion</a>
+		                                   		
+			                                    <a href="verLogin" class="btn btn-info btn-block nav-link" onclick="window.location='verLogin'" >Iniciar sesion</a>
 			                                    <a href="verRegistroCliente" class="btn btn-danger btn-block nav-link" id="#" onclick="window.location='verRegistroCliente'">Registrarse</a>
 		                                </c:if> 
 		                                <c:if test="${sessionScope.objUsuario!=null}">
