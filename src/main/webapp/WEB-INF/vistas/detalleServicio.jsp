@@ -400,7 +400,7 @@
         			          data: $('#idRegistrar').serialize(),
         			          success: function(data){
         			        	 //mostrarMensaje(data.mensaje);
-        			        	 if(!(data.estado)){
+        			        	 if(data.estado==0){
         			        		 mensajeError(data.mensaje);
         			        	 }else{
 									 mensajeGood(data.mensaje);

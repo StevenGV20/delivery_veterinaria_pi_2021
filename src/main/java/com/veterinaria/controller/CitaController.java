@@ -65,16 +65,13 @@ public class CitaController {
 			Date dia=new Date();
 			if(obj.getFechaAtencion().before(dia)) {
 				salida.put("mensaje", "El dia no puede ser antes de hoy");
-				salida.put("estado", false);
-				return salida;
-			}
-			else if(obj.getHoraAtencion().before(dia)) {
-				salida.put("mensaje", "La hora debe ser antes de la actual");
+				salida.put("estado", 0);
 				return salida;
 			}else {
 				obj.setCliente(cliente);
 				obj.setEstado("PENDIENTE");
 				objSalida = citaService.mantenerCita(obj);
+				salida.put("estado", 1);
 				if(objSalida==null)
 					salida.put("mensaje", Constantes.MENSAJE_REG_ERROR);
 				else
