@@ -72,6 +72,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <p>Nota: Los servicios se deben solicitar maximo un día antes.<br> Ante una emergencia llamar al siguiente número: <a href="tel:948111608">(+51) 948111608</a></p>
                                 </div>
                             </div>
                             <div id="idTotalProductos" class="mb-3"></div>

@@ -166,7 +166,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="section-heading">
-                      <h2>Registrar Mascotas</h2>
+                      <h2>Administrar Mascotas</h2>
                     </div>
                     <form  method="post" action="" id="idRegistrar" data-toggle="validator" class="mt-3 form-horizontal">
                       <div class="row">
@@ -496,11 +496,11 @@ $(document).ready( function () {
          	    	selector:'#idEdad',   
                         validators: {    
                             notEmpty: {    
-                                message: 'Ingrese edad de su mascota'    
+                                message: 'Ingrese edad de su mascota en meses'    
                             },      
                             regexp: {    
-                                regexp: /^[0-9]{1,2}$/,    
-                                message: 'Ingrese un numero entre 1 y 99'    
+                                regexp: /^([1-2])?([0-9]{1,2})$/,        
+                                message: 'Ingrese un numero entre 1 y 299'    
                             },    
                         }    
                   },

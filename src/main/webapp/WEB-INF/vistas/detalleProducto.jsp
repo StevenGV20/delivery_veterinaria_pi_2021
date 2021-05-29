@@ -60,20 +60,48 @@
                             <div class="row align-items-center">
                                 <div class="col-md-5">
                                     <div class="product-slider-single normal-slider">
-                                        <img src="img/${requestScope.objProducto.foto1}" alt="No existe">
-                                        <img src="img/${requestScope.objProducto.foto2}" alt="No existe">
-                                        <img src="img/${requestScope.objProducto.foto3}" alt="No existe">
-                                        <img src="img/${requestScope.objProducto.foto1}" alt="No existe">
-                                        <img src="img/${requestScope.objProducto.foto2}" alt="No existe">
-                                        <img src="img/${requestScope.objProducto.foto3}" alt="No existe">
+                                    	<c:forEach begin="1" end="2">
+                                    		<c:if test="${!empty requestScope.objProducto.foto1}">
+                                        		<img src="img/${requestScope.objProducto.foto1}" alt="No existe">
+	                                        </c:if>
+	                                        <c:if test="${empty requestScope.objProducto.foto1}">
+	                                        	<img src="img/image-not-found.png" alt="No existe">
+	                                        </c:if>
+	                                        <c:if test="${!empty requestScope.objProducto.foto2}">
+                                        		<img src="img/${requestScope.objProducto.foto2}" alt="No existe">
+	                                        </c:if>
+	                                        <c:if test="${empty requestScope.objProducto.foto2}">
+	                                        	<img src="img/image-not-found.png" alt="No existe">
+	                                        </c:if>
+	                                        <c:if test="${!empty requestScope.objProducto.foto3}">
+                                        		<img src="img/${requestScope.objProducto.foto3}" alt="No existe">
+	                                        </c:if>
+	                                        <c:if test="${empty requestScope.objProducto.foto3}">
+	                                        	<img src="img/image-not-found.png" alt="No existe">
+	                                        </c:if>
+                                    	</c:forEach>
                                     </div>
                                     <div class="product-slider-single-nav normal-slider col-md-12">
-                                        <div class="slider-nav-img"><img src="img/${requestScope.objProducto.foto1}" id="idFoto1" alt="No existe"></div>
-                                        <div class="slider-nav-img"><img src="img/${requestScope.objProducto.foto2}" id="idFoto2"  alt="No existe"></div>
-                                        <div class="slider-nav-img"><img src="img/${requestScope.objProducto.foto3}" id="idFoto3"  alt="No existe"></div>
-                                        <div class="slider-nav-img"><img src="img/${requestScope.objProducto.foto1}" alt="No existe"></div>
-                                        <div class="slider-nav-img"><img src="img/${requestScope.objProducto.foto2}" alt="No existe"></div>
-                                        <div class="slider-nav-img"><img src="img/${requestScope.objProducto.foto3}" alt="No existe"></div>
+                                       <c:forEach begin="1" end="2">
+                                    		<c:if test="${!empty requestScope.objProducto.foto1}">
+                                        		<img src="img/${requestScope.objProducto.foto1}" alt="No existe">
+	                                        </c:if>
+	                                        <c:if test="${empty requestScope.objProducto.foto1}">
+	                                        	<img src="img/image-not-found.png" alt="No existe">
+	                                        </c:if>
+	                                        <c:if test="${!empty requestScope.objProducto.foto2}">
+                                        		<img src="img/${requestScope.objProducto.foto2}" alt="No existe">
+	                                        </c:if>
+	                                        <c:if test="${empty requestScope.objProducto.foto2}">
+	                                        	<img src="img/image-not-found.png" alt="No existe">
+	                                        </c:if>
+	                                        <c:if test="${!empty requestScope.objProducto.foto3}">
+                                        		<img src="img/${requestScope.objProducto.foto3}" alt="No existe">
+	                                        </c:if>
+	                                        <c:if test="${empty requestScope.objProducto.foto3}">
+	                                        	<img src="img/image-not-found.png" alt="No existe">
+	                                        </c:if>
+                                    	</c:forEach>
                                     </div>
                                 </div>
                                 <div class="col-md-7">

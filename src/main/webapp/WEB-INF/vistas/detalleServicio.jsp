@@ -107,6 +107,7 @@
 	                                            <a class="btn btn-danger" href="verLogin" id=''>Iniciar Sesion</a>
 	                                        </div>
                                         </c:if>
+                                        <p>Nota: Los servicios se deben solicitar maximo un día antes.<br> Ante una emergencia llamar al siguiente número:<br><a href="tel:948111608">(+51) 948111608</a></p>
                                     </div>
                                 </div>
                             </div>

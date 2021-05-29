@@ -228,7 +228,7 @@
                         </div>
                         <div class="col-md-6">
                           <fieldset>                           	
-							<input type="text" class="input"  name="edad" id="idEdad" placeholder="Ingresar Edad">
+							<input type="text" class="input"  name="edad" id="idEdad" placeholder="Ingresar Edad en meses">
                           </fieldset>
                         </div>
                         <div class="col-md-6">
@@ -560,10 +560,10 @@ $(document).ready( function () {
          	    	selector:'#idEdad',   
                         validators: {    
                             notEmpty: {    
-                                message: 'Ingrese edad de su mascota'    
+                                message: 'Ingrese edad de su mascota en meses'    
                             },      
                             regexp: {    
-                                regexp: /^[0-9]{1,2}$/,    
+                                regexp: /^([1-3])?([0-9]{1,2})$/,    
                                 message: 'Ingrese un numero entre 1 y 99'    
                             },    
                         }    

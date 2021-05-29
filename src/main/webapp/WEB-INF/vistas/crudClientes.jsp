@@ -156,7 +156,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="section-heading">
-                      <h2>Registrar Cliente</h2>
+                      <h2>Administrar Cliente</h2>
                     </div>
                     <form  method="post" action="" id="idRegistrar" data-toggle="validator" class="mt-3 form-horizontal">
                       <div class="row">
@@ -415,6 +415,13 @@ $(document).ready( function () {
     	var validator = $('#idRegistrar').data('bootstrapValidator');
 	    validator.validate();
 	    if (validator.isValid()) {
+	    	if($("#idTelefono").val()<1){
+	    		alert("EL Telefono no puede ser con todos lo digitos de valor 0");
+	    		return;
+	    	}else if($("#idDni").val()<1){
+	    		alert("EL DNI no puede ser con todos lo digitos de valor 0");
+	    		return;
+	    	}
 	    	$.ajax({
 		          type: "POST",
 		          url: "registrarCliente", 
@@ -463,8 +470,8 @@ $(document).ready( function () {
                            message: 'Ingrese Nombre'    
                        },      
                        regexp: {    
-                           regexp: /^[a-zA-ZáéíóúÁÉÍÓÚ\s\w]+$/,    
-                           message: 'Letras y números'    
+                           regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/,    
+                           message: 'Solo letras'    
                        },    
                    }    
                },
@@ -475,8 +482,8 @@ $(document).ready( function () {
                         message: 'Ingrese Apellidos'    
                     },      
                     regexp: {    
-                        regexp: /^[a-zA-ZáéíóúÁÉÍÓÚ\s\w]+$/,    
-                        message: 'Letras y números'    
+                        regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/,    
+                        message: 'Solo letras'    
                     },    
                 }    
             },
@@ -485,7 +492,11 @@ $(document).ready( function () {
                validators: {    
                    notEmpty: {    
                        message: 'Ingrese Direccion'    
-                   },  
+                   },
+                   stringLength: {
+                	   more: 5,
+                	   message: 'Ingresa mas de 5 letras'  
+                   },
                }    
            },
            Telefono: {

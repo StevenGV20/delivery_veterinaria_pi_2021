@@ -158,6 +158,7 @@
 								            <th>Stock</th>
 								            <th>Precio(S/.)</th>
 								            <th>Categoria</th>
+								            <th>Marca</th>
 								            <th>Imagen</th>
 								            <th></th>
 								            <th></th>
@@ -173,6 +174,7 @@
 								            <th>Precio(S/.)</th>
 								            <th>Categoria</th>
 								            <th>Imagen</th>
+								            <th></th>
 								            <th></th>
 								            <th></th>
 								            <th></th>
@@ -460,7 +462,7 @@ function listarTabla(){
 		var eliminar="<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#eliminar' id='btnEliminar'>Eliminar</button>";
 		$.each(lista,function(index,item){
 			$("#idTableProductos tbody").append("<tr><td>"+item.idproducto+"</td><td>"+item.nombre+"</td><td style='width:30%;'>"+item.descripcionSimple+"</td><td>"+item.stock+"</td><td>"+
-					item.precio+"</td><td>"+item.idcategoria.nombre+"</td><td><img src='img/"+item.foto1+
+					item.precio+"</td><td>"+item.idcategoria.nombre+"</td><td>"+item.marca+"</td><td><img src='img/"+item.foto1+
 					"' class='card-img-top' alt='No existe'/></td><td><a href='verDetalleProducto?id="+item.idproducto+"' target='_blank'><i class='fas fa-eye'></i></a></td><td>"+editar+"</td><td>"+eliminar+"</td></tr>");
 		})
 		  $("#idTableProductos").DataTable();
@@ -547,8 +549,9 @@ $(document).ready( function () {
                              notEmpty: {    
                                  message: 'Ingrese Precio del Producto'    
                              },      
-                             numeric: {        
-                                 message: 'Ingrese un numero con formato: ###.##'    
+                             regexp: {    
+                                 regexp: /^([1-9])([0-9]{1,})?[.]([0-9]{2})+$/,    
+                                 message: 'El precio debe tener formato: #.##, y el primer dígito debe ser mayor a 0'    
                              },    
                          }    
                  },
@@ -559,8 +562,8 @@ $(document).ready( function () {
                                 message: 'Ingrese Stock del Producto'    
                             },      
                             regexp: {    
-                                regexp: /^[0-9]+$/,    
-                                message: 'Solo numeros enteros'    
+                                regexp: /^([1-9])([0-9]{1,})?$/,    
+                                message: 'Solo numeros enteros y que el primero sea mayor a 0'    
                             },    
                         }    
                 },
@@ -608,23 +611,29 @@ $(document).ready( function () {
                     validators: {    
                     	notEmpty: {    
                             message: 'Elija un archivo'    
-                        },    
+                        },      
+                        regexp: {    
+                            regexp: /\.(gif|jpe?g|png|webp|bmp)$/i,    
+                            message: 'Solo admite formatos: .jpe, .jpg, .png, .webp, .bmp'    
+                        },      
                     }    
             },
            Foto2: {
      	    	selector:'#idImagen2',   
                     validators: {    
-                    	notEmpty: {    
-                            message: 'Elija uns archivo'    
-                        },   
+                    	regexp: {    
+                            regexp: /\.(gif|jpe?g|png|webp|bmp)$/i,    
+                            message: 'Solo admite formatos: .jpe, .jpg, .png, .webp, .bmp'    
+                        }, 
                     }    
             },
            Foto3: {
      	    	selector:'#idImagen3',   
                     validators: {    
-                    	notEmpty: {    
-                            message: 'Elija un archivo'    
-                        },  
+                    	regexp: {    
+                            regexp: /\.(gif|jpe?g|png|webp|bmp)$/i,    
+                            message: 'Solo admite formatos: .jpe, .jpg, .png,  .webp, .bmp'    
+                        },
                     }    
             }
        	 }

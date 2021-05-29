@@ -64,7 +64,7 @@ public class CitaController {
 			Usuario cliente=(Usuario) session.getAttribute("objUsuario");
 			Date dia=new Date();
 			if(obj.getFechaAtencion().before(dia)) {
-				salida.put("mensaje", "El dia no puede ser antes de hoy");
+				salida.put("mensaje", "Solo puede sacar cita con Fecha de Atencion a partir de mañana");
 				salida.put("estado", 0);
 				return salida;
 			}else {

@@ -215,6 +215,13 @@
     	var validator = $('#idRegistrarCliente').data('bootstrapValidator');
 	    validator.validate();
 	    if (validator.isValid()) {
+	    	if($("#idTelefono").val()<1){
+	    		alert("EL Telefono no puede ser con todos lo digitos de valor 0");
+	    		return;
+	    	}else if($("#idDni").val()<1){
+	    		alert("EL DNI no puede ser con todos lo digitos de valor 0");
+	    		return;
+	    	}
 	    	$.ajax({
 		          type: "POST",
 		          url: "registrarCliente", 
@@ -245,8 +252,8 @@
                           message: 'Ingrese nombre'    
                       },      
                       regexp: {    
-                   	   regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s\w]+$/,    
-                          message: 'Letras y números'    
+                   	   regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/,    
+                          message: 'Solo letras'    
                       },    
                   }    
               },
@@ -257,8 +264,8 @@
                              message: 'Ingrese apellido'    
                          },      
                          regexp: {    
-                             regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s\w]+$/,    
-                             message: 'Letras y números'    
+                             regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/,    
+                             message: 'Solo letras'    
                          },    
                      }    
                  },

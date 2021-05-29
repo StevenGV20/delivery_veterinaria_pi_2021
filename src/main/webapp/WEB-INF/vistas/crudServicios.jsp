@@ -138,27 +138,27 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="tbServicios" width="100%" cellspacing="0">
                                     <thead>
-                                         <tr>
+                                         <tr class="text-center">
 								            <th>ID</th>
 								            <th>Nombre</th>
 								            <th>Descripcion</th>
 								            <th>Horario</th>
 								            <th>Precio(S/.)</th>
 								            <th>Categoria</th>
-								            <th></th>
+								            <th>Imagen</th>
 								            <th></th>
 								            <th></th>
 								        </tr>
                                     </thead>
                                     <tfoot>
-                                        <tr>
+                                        <tr class="text-center">
                                            <th>ID</th>
 								            <th>Nombre</th>
 								            <th>Descripcion</th>
 								            <th>Horario</th>
 								            <th>Precio(S/.)</th>
 								            <th>Categoria</th>
-								            <th></th>
+								            <th>Imagen</th>
 								            <th></th>
 								            <th></th>
                                         </tr>
@@ -207,6 +207,7 @@
                         </div>
                         <div class="col-md-6">
                           <fieldset>
+                          	<label>Horario del servicio:</label>    
 							<input type="text" class="input"  name="horario" id="idHorario" placeholder="Ingresar Horario del Servicio">
                           </fieldset>
                         </div>
@@ -219,7 +220,7 @@
                          -->
                         <div class="col-md-6">
                           <fieldset>
-                         	<label>Elige una categoria::</label>    
+                         	<label>Elige una categoria:</label>    
 							<select id="idCategoria"  class="input" name="idcategoria.idcategoria">	
 								<option>[ Seleccione ]</option>
 							</select>
@@ -483,9 +484,10 @@ $(document).ready( function () {
                              notEmpty: {    
                                  message: 'Ingrese Precio del Servicio'    
                              },      
-                             numeric: {        
-                                 message: 'Ingrese un numero con formato: ###.##'    
-                             },    
+                             regexp: {    
+                                 regexp: /^([1-9])([0-9]{1,})?[.]([0-9]{2})+$/,    
+                                 message: 'El precio debe tener formato: #.##, y el primer dígito debe ser mayor a 0'    
+                             },     
                          }    
                  },
 	           Descripcion: {
@@ -528,6 +530,10 @@ $(document).ready( function () {
                     validators: {    
                         notEmpty: {    
                             message: 'Ingresa una foto'    
+                        },      
+                        regexp: {    
+                            regexp: /\.(gif|jpe?g|png|webp|bmp)$/i,    
+                            message: 'Solo admite formatos: .jpe, .jpg, .png, .webp, .bmp'    
                         },  
                     }    
             }

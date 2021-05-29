@@ -135,10 +135,10 @@
 	                                            <td>${item.estado}</td>
 	                                            <c:if test="${sessionScope.objUsuario.idrol.idrol==2 || sessionScope.objUsuario.idrol.idrol==3}">
 	                                            	<td>${item.pedido.cliente.nombre} ${item.pedido.cliente.apellido}</td>
-	                                            	<c:if test="${item.estado!='PENDIENTE'}">
+	                                            	<c:if test="${item.estado=='ENTREGADO'}">
 	                                            		<td><button data-toggle='modal' disabled="disabled"  data-target='#asignar' class="btn btn-warning" id="btnAsignar">Asignar <i class="fas fa-user-check"></i></button></td>
 	                                            	</c:if>
-	                                            	<c:if test="${item.estado=='PENDIENTE'}">
+	                                            	<c:if test="${item.estado!='ENTREGADO'}">
 	                                            		<td><button data-toggle='modal'  data-target='#asignar' class="btn btn-warning" id="btnAsignar">Asignar <i class="fas fa-user-check"></i></button></td>
 	                                            	</c:if>
 	                                            </c:if>
@@ -342,6 +342,8 @@ $(document).on("click","#verPedido",(function(){
 	$("#lblCodigo").text(cod);
 	$("#idCodigoPedido").val(cod);
 	//alert(cod);
+	limpiarDetalle();
+	$('#detallePedido tbody').append('<tr><td class="loading text-center mb-5" colspan="10"><img src="img/cargando.gif" width="10%" alt="loading" /><br/>Un momento, por favor...</td> </tr>');
 	$.getJSON("detallePedidoById",{id:cod},function(listar, q, t){
 		$("#detallePedido tbody").empty();
 		console.log(listar);
@@ -360,6 +362,13 @@ $(document).on("click","#verPedido",(function(){
 	//bloquear(false);
 }));
 
+function limpiarDetalle(){
+	$("#idImporte").text("");
+	$("#idIGV").text("");
+	$("#idDescuento").text("");
+	$("#idTotal").text("");
+	$("#detallePedido tbody").empty();
+}
 
 $(document).on("click","#btnAsignar",(function(){
 	var ped=$(this).parents('tr').find("td")[0].innerHTML;
