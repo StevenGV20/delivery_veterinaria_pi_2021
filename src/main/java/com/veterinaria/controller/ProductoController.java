@@ -143,11 +143,9 @@ public class ProductoController {
 				service.saveFotos(files);
 				int c=0;
 				for(MultipartFile file:files) {
-					/*if(file.getSize()>600*1024) {
-						flash.addFlashAttribute("CORRECTO", "El tamaño de la imagen no puede superar los 600KB");
-						return "redirect:/verCrudProductos";
-					}*/
+					
 					if(!(file.getBytes()==null)) {
+						System.out.println("FILE: "+file.getOriginalFilename());
 						if(c==0) obj.setFoto1(file.getOriginalFilename());
 						else if(c==1)obj.setFoto2(file.getOriginalFilename());
 						else if(c==2) obj.setFoto3(file.getOriginalFilename());						
@@ -171,6 +169,7 @@ public class ProductoController {
 			return "redirect:/verCrudProductos";	
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			flash.addFlashAttribute("ERROR", Constantes.MENSAJE_REG_ERROR);
 			return "redirect:/verCrudProductos";
 		}
