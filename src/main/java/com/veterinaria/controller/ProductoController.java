@@ -139,6 +139,7 @@ public class ProductoController {
 		//Map<String, Object> salida=new HashMap<String,Object>();
 		//Producto objSalida=null;
 		try {
+			/*
 			if(files.size()!=0) {
 				service.saveFotos(files);
 				int c=0;
@@ -160,6 +161,7 @@ public class ProductoController {
 				//if(!files.get(0).isEmpty()) obj.setFoto1(files.get(0).getOriginalFilename());
 				//if(!file.)
 			}
+			*/
 			Optional<Producto> option = service.buscaProductoPorId(obj.getIdproducto());
 			service.mantenerProducto(obj);
 			if(!option.isPresent())
