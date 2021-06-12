@@ -461,9 +461,10 @@ function listarTabla(){
 		var editar="<button type='button' class='btn btn-success' id='btnEditar' data-toggle='modal'  data-target='#nuevo'>Editar</button>";
 		var eliminar="<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#eliminar' id='btnEliminar'>Eliminar</button>";
 		$.each(lista,function(index,item){
+			var img="image-not-found.png";
 			$("#idTableProductos tbody").append("<tr><td>"+item.idproducto+"</td><td>"+item.nombre+"</td><td style='width:30%;'>"+item.descripcionSimple+"</td><td>"+item.stock+"</td><td>"+
-					item.precio+"</td><td>"+item.idcategoria.nombre+"</td><td>"+item.marca+"</td><td><img src='img/"+item.foto1+
-					"' class='card-img-top' alt='No existe'/></td><td><a href='verDetalleProducto?id="+item.idproducto+"' target='_blank'><i class='fas fa-eye'></i></a></td><td>"+editar+"</td><td>"+eliminar+"</td></tr>");
+					item.precio+"</td><td>"+item.idcategoria.nombre+"</td><td>"+item.marca+"</td><td><img src='img/cargando.gif' onload='$(this).attr(\"src\",\""+item.foto1+
+					"\")' class='card-img-top' alt='No existe'/></td><td><a href='verDetalleProducto?id="+item.idproducto+"' target='_blank'><i class='fas fa-eye'></i></a></td><td>"+editar+"</td><td>"+eliminar+"</td></tr>");
 		})
 		  $("#idTableProductos").DataTable();
     })

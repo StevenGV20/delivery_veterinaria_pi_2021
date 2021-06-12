@@ -404,7 +404,7 @@ function listarTabla(){
 		var eliminar="<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#eliminar' id='btnEliminar'>Eliminar</button>";
 		$.each(lista,function(index,item){
 			$("#tbServicios tbody").append("<tr><td>"+item.idservicio+"</td><td>"+item.nombre+"</td><td style='width:40%;'>"+item.descripcion+"</td><td>"+item.horario+"</td><td>"+
-					parseFloat(item.precio).toFixed(2)+"</td><td>"+item.idcategoria.nombre+"</td><td><img src='img/"+item.foto+"'  alt='No existe' style='width: 200px;'/></td><td>"+editar+"</td><td>"+eliminar+"</td></tr>");
+					parseFloat(item.precio).toFixed(2)+"</td><td>"+item.idcategoria.nombre+"</td><td><img src='"+item.foto+"'  alt='No existe' style='width: 200px;'/></td><td>"+editar+"</td><td>"+eliminar+"</td></tr>");
 		})
 		//$("#tbServicios img").css("width","100%");
 	    $("#tbServicios").DataTable();
