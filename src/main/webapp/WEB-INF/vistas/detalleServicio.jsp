@@ -66,7 +66,7 @@
                             <div class="row align-items-center">
                                 <div class="col-md-5">
                                     <div class="product-slider-single normal-slider">
-                                        <img src="img/${requestScope.objServicio.foto}" alt="No existe">
+                                        <img src="${requestScope.objServicio.foto}" alt="No existe">
                                     </div>
                                    <!-- <div class="product-slider-single-nav normal-slider">
                                         <div class="slider-nav-img"><img src="img/${requestScope.objServicio.foto}" alt="No existe"></div>

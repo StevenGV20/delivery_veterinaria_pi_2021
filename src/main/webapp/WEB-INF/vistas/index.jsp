@@ -129,7 +129,7 @@
 	                            </div>
 	                            <div class="product-image">
 	                                <a href="verDetalleProducto?id=${item.idproducto}">
-	                                    <img src="img/${item.foto1}" class="img_card" alt="Product Image">
+	                                    <img src="${item.foto1}" class="img_card" alt="Product Image">
 	                                </a>
 	                                <div class="product-action">
 	                                    <!-- <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -192,7 +192,7 @@
 	                            </div>
 	                            <div class="product-image">
 	                                <a href="verDetalleServicio?id=${item.idservicio}">
-	                                    <img src="img/${item.foto}" class="img_card" alt="Product Image">
+	                                    <img src="${item.foto}" class="img_card" alt="Product Image">
 	                                </a>
 	                                <div class="product-action">
 	                                    <!-- <a href="#"><i class="fa fa-cart-plus"></i></a>
