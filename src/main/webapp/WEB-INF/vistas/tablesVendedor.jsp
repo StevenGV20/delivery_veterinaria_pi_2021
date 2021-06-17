@@ -399,6 +399,22 @@ $(document).ready( function () {
                     },    
                 }    
             },
+            prueba: {
+         	    selector:'#idnomprue',   
+                        validators: {    
+                            notEmpty: {    
+                                message: 'Ingrese nombre'    
+                            }    
+                        }    
+                    },
+               prueba2: {
+               selector:'#idregprue',   
+                            validators: {    
+                                notEmpty: {    
+                                    message: 'Ingrese respuesta'    
+                                }               
+                            }    
+                        },
           fechaPedido: {
 	    	selector:'#idfechaPedido',   
                validators: {    

@@ -146,7 +146,6 @@
                         </div>
                         <div class="col-md-6">
                           <fieldset class="form-group">
-                         	
 							<input type="text" class="input"  name="regConsulta" id="idregConsulta" placeholder="Ingresar consulta">
                           </fieldset>
                         </div>
@@ -186,14 +185,14 @@
         	<div class="row">
                         <div class="col-md-6">
                           <fieldset class="form-group">
-                          <label for="staticEmail">Ingresar Nombre del agente</label>
+                          <label for="staticEmail">Ingresar nombre del asesor</label>
 							<input type="text" class="input"  name="prueba" id="idnomprue">
                           </fieldset>
-                        </div>
+						</div>
                         <div class="col-md-6">
                           <fieldset class="form-group">	
                           <label for="staticEmail">Ingresar respuesta para el cliente</label>
-							<input type="text" class="input"  name="prueba2" id="idregprue" >
+							<input type="text" class="input"  name="prueba2" id="idregprue">
                           </fieldset>
                         </div>    
                       </div>
@@ -402,6 +401,22 @@ $(document).ready( function () {
                     },    
                 }    
             },
+            prueba: {
+     	    selector:'#idnomprue',   
+                    validators: {    
+                        notEmpty: {    
+                            message: 'Ingrese nombre'    
+                        }    
+                    }    
+                },
+           prueba2: {
+           selector:'#idregprue',   
+                        validators: {    
+                            notEmpty: {    
+                                message: 'Ingrese respuesta'    
+                            }               
+                        }    
+                    },
           fechaConsulta: {
 	    	selector:'#idfechaConsulta',   
                validators: {    
