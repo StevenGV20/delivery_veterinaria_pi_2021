@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,28 +49,44 @@ public class ProductoController {
 		return lista;
 	}
 	
+	@RequestMapping("/listaProductosByPage")
+	@ResponseBody
+	public Page<Producto> listaProductosByPage(int page){
+		int size=6;
+		Pageable pageable=PageRequest.of(page,size);
+		return service.listaProductoByPage(pageable);
+	}
+	
 	@RequestMapping("/listaProductosByNombreAaZ")
 	@ResponseBody
-	public List<Producto> listaProductosByAaZ(){
-		List<Producto> lista= service.listaProductoByNombreAaZ();
+	public Page<Producto> listaProductosByAaZ(int page){
+		int size=6;
+		Pageable pageable=PageRequest.of(page,size);
+		Page<Producto> lista= service.listaProductoByNombreAaZ(pageable);
 		return lista;
 	}
 	@RequestMapping("/listaProductosByNombreZaA")
 	@ResponseBody
-	public List<Producto> listaProductosByNombreZaA(){
-		List<Producto> lista= service.listaProductoByNombreZaA();
+	public Page<Producto> listaProductosByNombreZaA(int page){
+		int size=6;
+		Pageable pageable=PageRequest.of(page,size);
+		Page<Producto> lista= service.listaProductoByNombreZaA(pageable);
 		return lista;
 	}
 	@RequestMapping("/listaProductoByPrecioMenorMayor")
 	@ResponseBody
-	public List<Producto> listaProductoByPrecioMenorMayor(){
-		List<Producto> lista= service.listaProductoByPrecioMenorMayor();
+	public Page<Producto> listaProductoByPrecioMenorMayor(int page){
+		int size=6;
+		Pageable pageable=PageRequest.of(page,size);
+		Page<Producto> lista= service.listaProductoByPrecioMenorMayor(pageable);
 		return lista;
 	}
 	@RequestMapping("/listaProductoByPrecioMayoraMenor")
 	@ResponseBody
-	public List<Producto> listaProductoByPrecioMayoraMenor(){
-		List<Producto> lista= service.listaProductoByPrecioMayoraMenor();
+	public Page<Producto> listaProductoByPrecioMayoraMenor(int page){
+		int size=6;
+		Pageable pageable=PageRequest.of(page,size);
+		Page<Producto> lista= service.listaProductoByPrecioMayoraMenor(pageable);
 		return lista;
 	}
 	
@@ -133,10 +152,10 @@ public class ProductoController {
 		return salida;		
 	}*/
 	
-	@PostMapping("/registrarProducto")
-	//@ResponseBody
-	public String registra(@RequestParam("files") List<MultipartFile> files, Producto obj, RedirectAttributes flash){
-		//Map<String, Object> salida=new HashMap<String,Object>();
+	@RequestMapping("/registrarProducto")
+	@ResponseBody
+	public Map<String, Object>  registra(/*@RequestParam("files") List<MultipartFile> files,*/ Producto obj, RedirectAttributes flash){
+		Map<String, Object> salida=new HashMap<String,Object>();
 		//Producto objSalida=null;
 		try {
 			/*
@@ -165,16 +184,17 @@ public class ProductoController {
 			Optional<Producto> option = service.buscaProductoPorId(obj.getIdproducto());
 			service.mantenerProducto(obj);
 			if(!option.isPresent())
-				flash.addFlashAttribute("CORRECTO", Constantes.MENSAJE_REG_EXITOSO);
+				salida.put("data", obj);
 			else 
-				flash.addFlashAttribute("CORRECTO", Constantes.MENSAJE_ACT_EXITOSO);
-			return "redirect:/verCrudProductos";	
+				salida.put("data", option);
+			//return "redirect:/verCrudProductos";	
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			flash.addFlashAttribute("ERROR", Constantes.MENSAJE_REG_ERROR);
-			return "redirect:/verCrudProductos";
+			salida.put("mensaje", Constantes.MENSAJE_REG_ERROR);
+			//return "redirect:/verCrudProductos";
 		}
+		return salida;
 	}
 	
 	@RequestMapping("/actualizaProducto")

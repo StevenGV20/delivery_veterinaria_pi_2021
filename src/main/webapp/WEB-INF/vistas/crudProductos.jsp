@@ -47,7 +47,16 @@
    <link href="css/dataTables.bootstrap.min.css" rel="stylesheet"> 
    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrapValidator.css"/>
-    
+       
+	
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-analytics.js"></script>
+	
 	
 
 	
@@ -212,12 +221,12 @@
 							<input type="text" class="input"  name="nombre" id="idNombre" placeholder="Ingresar Nombre">
                           </fieldset>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                           <fieldset>                           	
 							<input type="text" class="input"  name="precio" id="idPrecio" placeholder="Ingresar Precio">
                           </fieldset>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                           <fieldset>
 							<input type="text" class="input"  name="stock" id="idStock" placeholder="Ingresar Stock">
                           </fieldset>
@@ -227,11 +236,20 @@
 							<input type="text" class="input"  name="marca" id="idMarca" placeholder="Ingresar Marca">
                           </fieldset>
                         </div>
+                        
+                        <div class="col-md-6">
+                          <fieldset class="block">
+							<select id="idCategoria"  class="input" name="idcategoria.idcategoria">	
+								<option>[ Seleccione Categoria ]</option>
+							</select>
+						 </fieldset>
+                        </div>
                         <div class="col-md-12">
                           <fieldset>                           	
 							<textarea class="input"  name="descripcionSimple" id="idDescripcionSimple" placeholder="Ingresar descripcion simple"></textarea>
                           </fieldset>
                         </div>
+                        
                          <div class="col-md-12">
                          	 <fieldset>    
 		                          <div class="adjoined-bottom">
@@ -247,35 +265,39 @@
                         </div>
                         <input type="hidden" class="input"  name="descripcionHTML" id="idDescripcionHTML">
                       
-                        <div class="col-md-6">
-                          <fieldset class="block">
-                          <label>Elija una Categoria</label>
-							<select id="idCategoria"  class="input" name="idcategoria.idcategoria">	
-								<option>[ Seleccione ]</option>
-							</select>
-						 </fieldset>
-                        </div>
                         
-                       <div class="col-md-6">
+                       <div class="col-md-4">
                           <fieldset>
-                         	<label>Suba la 1° Imagen:</label>                           	
-							<input type="file" class="input"  name="files" id="idImagen1" placeholder="Ingresar Foto1">
+                         	<label>Suba la 1° Imagen:</label>  
+                         	<img id="foto1" src="img/image-not-found.png" class="card-img-top img-card"/>                         	
+							<input type="file" class="input" onchange="uploadImage(0);"  name="files" id="idImagen1" placeholder="Ingresar Foto1">
+							<input name="foto1" id="fotos1" value="img/image-not-found.png" hidden=""/>
+							<input name="foto2" id="fotos2" value="img/image-not-found.png" hidden=""/>
+							<input name="foto3" id="fotos3" value="img/image-not-found.png" hidden=""/>
                           </fieldset>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                           <fieldset>          
-                          	<label>Suba la 2° Imagen:</label>                 	
-							<input type="file" class="input"  name="files" id="idImagen2" placeholder="Ingresar Foto2">
+                          	<label>Suba la 2° Imagen:</label>   
+                          	<img id="foto2" src="img/image-not-found.png" class="card-img-top img-card"/>              	
+							<input type="file" class="input" onchange="uploadImage(1);"  name="files" id="idImagen2" placeholder="Ingresar Foto2">
+                          </fieldset>
+                        </div>
+                        <div class="col-md-4">
+                          <fieldset>     
+                          	<label>Suba la 3° Imagen:</label>
+                          	<img id="foto3" src="img/image-not-found.png" class="card-img-top img-card"/>                          	
+							<input type="file" class="input" onchange="uploadImage(2);"  name="files" id="idImagen3" placeholder="Ingresar Foto3">
                           </fieldset>
                         </div>
                         <div class="col-md-6">
                           <fieldset>     
-                          	<label>Suba la 3° Imagen:</label>                          	
-							<input type="file" class="input"  name="files" id="idImagen3" placeholder="Ingresar Foto3">
+                          	<label> Imagen:</label>                          	
+							
                           </fieldset>
                         </div>
                         <div class="col-md-12 mt-2">
-                          <button type="submit" class="btn__submit" id="btnRegistrar">Registrar</button>  		
+                          <button type="button" class="btn__submit" id="btnRegistrar">Registrar</button>  		
         				  <button type="button" class="btn__reset" id="btnCancelar" data-dismiss="modal">Cancelar</button>
                         </div>
                         
@@ -407,7 +429,12 @@ $(document).on("click","#btnEditar",(function(){
 		CKEDITOR.instances.editor.destroy();
 		$("#editor").append(data.descripcionHTML);
 		initSample();
-		$("#idImagen1").val(data.foto1);
+		$("#foto1").attr("src",data.foto1);
+		$("#foto2").attr("src",data.foto2);
+		$("#foto3").attr("src",data.foto3);
+		$("#fotos1").val(data.foto1);
+		$("#fotos2").val(data.foto2);
+		$("#fotos3").val(data.foto3);
 		
 	})
 	bloquear(false);
@@ -450,6 +477,14 @@ function limpiar(){
 	$("#idCodProducto").val("0");
 	CKEDITOR.instances.editor.destroy();
 	initSample();
+	$("#idRegistrar select").val("[ Seleccione Categoria ]");
+	$("#idDescripcionHTML").val("");
+	$("#foto1").attr("src","img/image-not-found.png");
+	$("#foto2").attr("src","img/image-not-found.png");
+	$("#foto3").attr("src","img/image-not-found.png");
+	$("#fotos1").val("img/image-not-found.png");
+	$("#fotos2").val("img/image-not-found.png");
+	$("#fotos3").val("img/image-not-found.png");
 }
 
 function listarTabla(){
@@ -497,14 +532,63 @@ $(document).ready( function () {
     	limpiar();
     });
 
-
+/*
     $("#btnRegistrar").click(function(){
     	var txt= CKEDITOR.instances.editor.getData();
     	$("#idDescripcionHTML").val(txt);
 		//alert("¿Está seguro de enviar?");
 		$("#idRegistrar").action("registrarProductos");
 		$("#idRegistrar").submit();
+    });*/
+    
+    $("#btnRegistrar").click(function(){
+    	var txt= CKEDITOR.instances.editor.getData();
+    	$("#idDescripcionHTML").val(txt);
+		//alert("¿Está seguro de enviar?");
+		var validator = $('#idRegistrar').data('bootstrapValidator');
+	    validator.validate();
+	    
+	    if (validator.isValid()) {
+	    	for(var c=0;c<3;c++){
+		    	const file=document.getElementsByName("files")[c].files[0];
+		    	if(file!=null){
+			    	var sizeByte = file.size;
+			        var sizekiloBytes = parseInt(sizeByte / 1024);
+			    	if(sizekiloBytes>150){
+			    		alert("El tamaño de archivo es "+sizekiloBytes+" KB y supero el limite (150KB)");
+			    		return;
+			    	}		    		
+		    	}	    		
+	    	}
+	    	
+			$.ajax({
+	    		  type: "POST",
+		          url: "registrarProducto", 
+	    		  data: $("#idRegistrar").serialize(),
+		          success: function(data){
+		        	/*
+		        	//var urls = new Array();
+		        	for(var i=0;i<3;i++){
+						uploadImage(i);
+			    	}*/
+		        	
+		        	//console.log(urls);
+		        	listarTabla();
+		        	mostrarMensaje("Se registro crorectamente el producto");
+		        	//guardarFotos(data.idproducto);
+		        	limpiar();
+		        	//limpiarFormCliente();
+		          },
+		          error: function(message){
+		        	  console.log(message);
+		        	  mostrarMensaje(message.responseJSON.detail);
+		          }
+		     });
+	    }
+		
+		//$("#idRegistrar").submit();
     });
+    
     
     $("#btn_eliminar").click(function(){
 
@@ -610,9 +694,6 @@ $(document).ready( function () {
            Foto1: {
      	    	selector:'#idImagen1',   
                     validators: {    
-                    	notEmpty: {    
-                            message: 'Elija un archivo'    
-                        },      
                         regexp: {    
                             regexp: /\.(gif|jpe?g|png|webp|bmp)$/i,    
                             message: 'Solo admite formatos: .jpe, .jpg, .png, .webp, .bmp'    

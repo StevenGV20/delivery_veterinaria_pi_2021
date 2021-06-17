@@ -2,6 +2,8 @@ package com.veterinaria.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,15 +17,19 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer>{
 	public abstract List<Producto> listaProductoByName(@Param("nombre") String nombre);
 	
 	@Query("Select p from Producto p order by p.nombre asc")
-	public abstract List<Producto> listaProductoByNameAaZ();
+	public abstract Page<Producto> listaProductoByNameAaZ(Pageable pageable);
 	
 	@Query("Select p from Producto p order by p.nombre desc")
-	public abstract List<Producto> listaProductoByNameZaA();
+	public abstract Page<Producto> listaProductoByNameZaA(Pageable pageable);
 
 	@Query("Select p from Producto p order by p.precio desc")
-	public abstract List<Producto> listaProductoByPrecioMayor();
+	public abstract Page<Producto> listaProductoByPrecioMayor(Pageable pageable);
 
 	@Query("Select p from Producto p order by p.precio asc")
-	public abstract List<Producto> listaProductoByPrecioMenor();
+	public abstract Page<Producto> listaProductoByPrecioMenor(Pageable pageable);
+	
+
+	@Query("Select p from Producto p")
+	public abstract Page<Producto> listaProductoByPage(Pageable pageable);
 	
 }

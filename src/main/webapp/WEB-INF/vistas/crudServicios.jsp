@@ -49,7 +49,16 @@
     <link rel="stylesheet" href="css/bootstrapValidator.css"/>
     <!-- CSS only 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>-->
+   
+	
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
 
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-analytics.js"></script>
+	
  <style>
   	.forms input{
   		margin-bottom: 0px;
@@ -229,8 +238,10 @@
                         
                        <div class="col-md-6">
                           <fieldset>
-                         	<label>Subir Imagen:</label>                           	
-							<input type="file" class="input"  name="file" id="idFoto" placeholder="Ingresar Foto">
+                         	<label>Subir Imagen:</label>  
+                         	<input name="foto" id="fotos1" value="img/image-not-found.png" hidden=""/>
+                         	<img id="foto1" src="img/image-not-found.png" class="card-img-top img-card"/>                           	
+							<input type="file" class="input" onchange="uploadImage(0)" name="files" id="idFoto" placeholder="Ingresar Foto">
                           </fieldset>
                         </div>
                         

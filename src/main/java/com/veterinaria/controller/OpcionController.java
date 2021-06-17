@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,10 +36,13 @@ public class OpcionController {
 	*/
 	@RequestMapping("/")
 	public String verInicio(ModelMap flash) {
-		List<Producto> productos= productoService.listaProducto();
-		List<Servicio> servicios= servicioService.listaServicios();
+		//int size=6;
+		//int page=0;
+		//Pageable pageable=PageRequest.of(page,size);
+		/*List<Producto> productos= productoService.listaProductoByPage(pageable);
+		List<Servicio> servicios= servicioService.listaServiciosByPage(pageable);
 		flash.addAttribute("LISTAPRODUCTOS", productos);
-		flash.addAttribute("LISTASERVICIOS", servicios);
+		flash.addAttribute("LISTASERVICIOS", servicios);*/
 		return "index";
 	}
 	

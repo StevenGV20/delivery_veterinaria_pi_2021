@@ -23,9 +23,7 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style_theme_blue.css" rel="stylesheet">
-        
-    </head>
-    <style type="text/css">
+        <style type="text/css">
         	.banner{
         		width:100%;
         		height:400px;
@@ -34,29 +32,8 @@
         		width:100%;
         		height:400px;
         	}
-        	.container{
-			    width: 80%;
-        	}
-        	
-        	@media (min-width: 1200px)
-			{
-			 .container {
-			   		max-width: 1500px%;
-			   }   
-			}
-			@media (min-width: 800px)
-			{
-			 .container {
-			   		max-width: 80%;
-			   }   
-			}
-			@media (min-width: 200px)
-			{
-			 .container {
-			   		max-width: 80%;
-			   }   
-			}
         </style>
+    </head>
     <body>
         <!-- Top bar Start -->
 		<jsp:include page="menuCliente.jsp"></jsp:include>
@@ -130,15 +107,15 @@
         </div>
         <!-- Call to Action End -->       
         <!-- Featured Product Start -->
-        <div class="container featured-product product ">
+        <div class="featured-product product">
             <div class="container-fluid">
                 <div class="section-header">
                     <h1>Nuestro Productos</h1>
                 </div>
-                <div class="row align-items-center" id="ltProductos">
-                <!-- 
+                <div class="row align-items-center product-slider product-slider-4" id="ltProductos">
+                
                     <c:forEach items="${sessionScope.LISTAPRODUCTOS}" var="item">
-                    	<div class="col-lg-4">
+                    	<div class="col-lg-3">
 	                        <div class="product-item">
 	                            <div class="product-title">
 	                                <a href="verDetalleProducto?id=">${item.nombre}</a>
@@ -152,11 +129,11 @@
 	                            </div>
 	                            <div class="product-image">
 	                                <a href="verDetalleProducto?id=${item.idproducto}">
-	                                    <img src="img/cargando.gif" class="img_card" alt="Product Image">
+	                                    <img src="img/cargando.gif" onload="$(this).attr('src','${item.foto1}');return;" class="img_card" alt="Product Image">
 	                                </a>
 	                                <div class="product-action">
-	                                   <a href="#"><i class="fa fa-cart-plus"></i></a>
-	                                    <a href="#"><i class="fa fa-heart"></i></a>
+	                                    <!-- <a href="#"><i class="fa fa-cart-plus"></i></a>
+	                                    <a href="#"><i class="fa fa-heart"></i></a> -->
 	                                    <a href="verDetalleProducto?id=${item.idproducto}"><i class="fa fa-search"></i></a>
 	                                </div>
 	                            </div>
@@ -167,9 +144,9 @@
 	                        </div>
 	                    </div>
                     </c:forEach>
-                     -->
+                    
+                    
                 </div>
-                  <center><a href="/verListaProductos" class="btn">Ver mas <i class="fas fa-list"></i></a></center>
             </div>
         </div>
         <!-- Featured Product End -->       
@@ -193,15 +170,15 @@
         <!-- Newsletter End -->        
         
         <!-- Recent Product Start -->
-        <div class="recent-product product container">
-            <div class="container-fluid align-items-center">
+        <div class="recent-product product">
+            <div class="container-fluid">
                 <div class="section-header">
                     <h1>Nuestros Servicios</h1>
                 </div>
-                <div class="row align-items-center" id="ltServicios">
-                    <!-- 
+                <div class="row align-items-center product-slider product-slider-4" id="ltServicios">
+                    
                     <c:forEach items="${sessionScope.LISTASERVICIOS}" var="item">
-                    	<div class="col-lg-4">
+                    	<div class="col-lg-3">
 	                        <div class="product-item">
 	                            <div class="product-title">
 	                                <a href="verDetalleServicio?id=${item.idservicio}">${item.nombre}</a>
@@ -215,9 +192,11 @@
 	                            </div>
 	                            <div class="product-image">
 	                                <a href="verDetalleServicio?id=${item.idservicio}">
-	                                    <img src="img/cargando.gif" onload="$(this).attr('src','${item.foto}');" class="img_card" alt="Product Image">
+	                                    <img src="img/cargando.gif" onload="$(this).attr('src','${item.foto}');return;" class="img_card" alt="Product Image">
 	                                </a>
 	                                <div class="product-action">
+	                                    <!-- <a href="#"><i class="fa fa-cart-plus"></i></a>
+	                                    <a href="#"><i class="fa fa-heart"></i></a> -->
 	                                    <a href="verDetalleServicio?id=${item.idservicio}"><i class="fa fa-search"></i></a>
 	                                </div>
 	                            </div>
@@ -228,9 +207,8 @@
 	                        </div>
 	                    </div>
                     </c:forEach>
-                     -->
+                    
                 </div>
-               <center><a href="/verListaServicios" class="btn">Ver mas <i class="fas fa-list"></i></a></center>
             </div>
         </div>
         <!-- Recent Product End -->
@@ -389,101 +367,5 @@
     </body>
     
     <script type="text/javascript">
-    function cargarImagen(img,url){
-    	//alert("Hola");
-    	$("#idFoto"+img).attr("src",url);
-    	//return false;
-    	//setTimeout(cargarImagen,1500);
-    }
-    function listarProductos(url){
-		$('#ltProductos').html('<div class="loading text-center col-md-12 mb-5" id="idLoading"><img src="img/cargando.gif" width="10%" alt="loading" /><br/>Un momento, por favor...</div>');
-    	$.getJSON(url,{},function(lista, q, t){
-    		$("#ltProductos").empty();
-    		console.log(lista);
-    		$.each(lista.content,function(index,item){
-    			//var img="";
-    			$("#ltProductos").append("<div class='col-md-4 mb-2'> "
-    					+ "	<div class='product-item'> "
-    					+ "		<div class='product-title'> "
-    					+ "			<a href='verDetalleProducto?id="+item.idproducto+"'>"+item.nombre+"</a> "
-    					+ "			<div class='ratting'> "
-    					+ "				<i class='fa fa-star'></i> "
-    					+ "				<i class='fa fa-star'></i> "
-    					+ "				<i class='fa fa-star'></i> "
-    					+ "				<i class='fa fa-star'></i> "
-    					+ "				<i class='fa fa-star'></i> "
-    					+ "			</div> "
-    					+ "		</div> "
-    					+ "		<div class='product-image'> "
-    					+ "			<a href='verDetalleProducto?id="+item.idproducto+"'> "
-    					//+ "				<img src='img/cargando.gif' onload='$(this).attr(\"src\",\""+item.foto1+"\")' class='img_card' alt='Product Image'> "
-    					+ "				<img src='img/cargando.gif' id='idFoto"+item.idproducto+"'  class='img_card' alt='La imagen no exito o no cargo bien'> "
-    					+ "			</a> "
-    					+ "			<div class='product-action'> "
-    					+ "				<a href='verDetalleProducto?id="+item.idproducto+"'><i class='fa fa-search'></i></a> "
-    					+ "			</div> "
-    					+ "		</div> "
-    					+ "		<div class='product-price'> "
-    					+ "			<h3><span>S/. </span>"+(item.precio).toFixed(2)+"</h3> "
-    					+ "			<a class='btn' href='verDetalleProducto?id="+item.idproducto+"'><i class='fa fa-shopping-cart'></i>Comprar</a> "
-    					+ "		</div> "
-    					+ "	</div> "
-    					+ "</div>");
-    			//setTimeout("cargarImagen("+item.idproducto+","+item.foto1+")",2000);
-    			setTimeout(function(){ $("#idFoto"+item.idproducto).attr("src",item.foto1); }, 1500);
-    		})
-    		$('#idLoading').hide();
-    		//$("#idFoto"+item.idproducto).attr("src",item.foto1);
-    		//cargarImagen(item.idproducto,item.foto1);
-        })
-    	
-    }
-    
-    function listarServicios(url){
-		$('#ltServicios').html('<div class="loading text-center col-md-12 mb-5" id="idLoading"><img src="img/cargando.gif" width="10%" alt="loading" /><br/>Un momento, por favor...</div>');
-    	$.getJSON(url,{},function(lista, q, t){
-    		$("#ltServicios").empty();
-    		console.log(lista);
-    		$.each(lista,function(index,item){
-    			$("#ltServicios").append("<div class='col-md-4 mb-2'> "
-    					+ "	<div class='product-item'> "
-    					+ "		<div class='product-title'> "
-    					+ "			<a href='verDetalleServicio?id="+item.idservicio+"'>"+item.nombre+"</a> "
-    					+ "			<div class='ratting'> "
-    					+ "				<i class='fa fa-star'></i> "
-    					+ "				<i class='fa fa-star'></i> "
-    					+ "				<i class='fa fa-star'></i> "
-    					+ "				<i class='fa fa-star'></i> "
-    					+ "				<i class='fa fa-star'></i> "
-    					+ "			</div> "
-    					+ "		</div> "
-    					+ "		<div class='product-image'> "
-    					+ "			<a href='verDetalleServicio?id="+item.idservicio+"'> "
-    					+ "				<img src='img/cargando.gif' id='idFotoS"+item.idservicio+"' class='img_card' alt='Product Image'> "
-    					+ "			</a> "
-    					+ "			<div class='product-action'> "
-    					+ "				<a href='verDetalleServicio?id="+item.idservicio+"'><i class='fa fa-search'></i></a> "
-    					+ "			</div> "
-    					+ "		</div> "
-    					+ "		<div class='product-price'> "
-    					+ "			<h3><span>S/. </span>"+item.precio+"</h3> "
-    					+ "			<a class='btn' href='verDetalleServicio?id="+item.idservicio+"'><i class='fa fa-shopping-cart'></i>Solicitar</a> "
-    					+ "		</div> "
-    					+ "	</div> "
-    					+ "</div>");
-    			setTimeout(function(){ $("#idFotoS"+item.idservicio).attr("src",item.foto); }, 1500);
-    		})
-    		$('#idLoading').hide();
-    		//$("#tbServicios img").css("width","100%");
-        })
-    	
-    }
-    
-   $(document).ready(function(){
-	   $(".container").css("max-width","75%");
-	  listarProductos("listaProductosByPage?page=0");
-	  listarServicios("listaServiciosByPage?page=0");
-   });
-    
     </script>
 </html>

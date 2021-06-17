@@ -113,16 +113,17 @@
                         <!-- Pagination Start -->
                         <div class="col-md-12">
                             <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
+                                <ul class="pagination justify-content-center" id="paginacion">
+                                    <!--   <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">Antes</a>
+                                    </li> 
+                                    <li class="page-item"><label class="page-link">1</label></li>
+                                    <li class="page-item"><label class="page-link">2</label></li>
+                                    <li class="page-item"><label class="page-link">3</label></li>                                    -->
+                                    
+                                     <!--  <li class="page-item">
+                                        <a class="page-link" href="#">Siguiente</a>
+                                    </li> -->
                                 </ul>
                             </nav>
                         </div>
@@ -270,13 +271,15 @@
         <script src="js/main.js"></script>
            
     <script type="text/javascript">
-    
-	    function listarProductos(url){
+
+    var condicion=0;
+	    function listarProductos(url,page){
     		$('#listaProductos').html('<div class="loading text-center col-md-12 mb-5" id="idLoading"><img src="img/cargando.gif" width="10%" alt="loading" /><br/>Un momento, por favor...</div>');
-	    	$.getJSON(url,{},function(lista, q, t){
+	    	$.getJSON(url,{page:page},function(lista, q, t){
 	    		$("#listaProductos").empty();
+	    		$("#paginacion").empty();
 	    		console.log(lista);
-	    		$.each(lista,function(index,item){
+	    		$.each(lista.content,function(index,item){
 	    			$("#listaProductos").append("<div class='col-md-4 col-lg-4 col-sm-4'> "
 	    					+ "	<div class='product-item'> "
 	    					+ "		<div class='product-title'> "
@@ -305,6 +308,9 @@
 	    					+ "</div>");
 	    		})
 	    		$('#idLoading').hide();
+	    		for(var i=1;i<=lista.totalPages;i++){
+    				$("#paginacion").append(" <li class='page-item'><button class='page-link' id='idNumPage'>"+i+"</button></li>");
+    			}
 	    		//$("#tbServicios img").css("width","100%");
 	        })
 	    	
@@ -314,7 +320,7 @@
     		$('#listaProductos').html('<div class="loading text-center col-md-12 mb-5" id="idLoading"><img src="img/cargando.gif" width="10%" alt="loading" /><br/>Un momento, por favor...</div>');
 	    	$.getJSON(url,{nombre:nom},function(lista, q, t){
 	    		$("#listaProductos").empty();
-	    		console.log(lista);
+	    		//console.log(lista);
 	    		if(nom.trim().length>0)
 	    			$("#idTotalProductos").html("<h6>Resultados de búsqueda para '"+nom+"'</h6>");
 	    		else
@@ -352,14 +358,28 @@
 	        })
 	    	
 	    }
+
+	    $(document).on("click","#idNumPage",(function(){
+	    	var page=parseInt($(this).text())-1;
+	    	if(condicion==0)
+	    		listarProductos("listaProductosByPage",page);
+	    	else if(condicion==1)
+	    		listarProductos("listaProductosByNombreAaZ",page);	  
+	    	else if(condicion==2)
+	    		listarProductos("listaProductosByNombreZaA",page);	
+	    	else if(condicion==3)
+	    		listarProductos("listaProductoByPrecioMenorMayor",page);	
+	    	else if(condicion==4)
+	    		listarProductos("listaProductoByPrecioMayoraMenor",page);
+	    }));
+
 	    //listarProductos();
 	    $(document).ready(function(){
-	    	listarProductos("listaProductos");
+	    	listarProductos("listaProductosByPage",0);
 	    	
 	    	$("#filtroBuscar").keyup(function(){
 	    		listarProductosByName("listaProductosByNombre",$(this).val());
 	    	});
-	    	
 	    	
 	    	$("#idFiltro").change(function(){
 	    		if($(this).val()==1)

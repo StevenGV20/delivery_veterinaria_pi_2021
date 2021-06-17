@@ -3,6 +3,7 @@ package com.veterinaria.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.veterinaria.entity.Servicio;
@@ -17,6 +18,7 @@ public interface ServicioService {
 	//SUBIR ARCHIVOS
 	public abstract void guardarFotoServicio(MultipartFile file) throws Exception;
 	//CONSULTAS
+	public abstract List<Servicio> listaServiciosByPage(Pageable pageable);
 	public abstract List<Servicio> listaServicioByNombre(String nombre);
 	public abstract List<Servicio> listaServicioByAaZ();
 	public abstract List<Servicio> listaServicioByZaA();

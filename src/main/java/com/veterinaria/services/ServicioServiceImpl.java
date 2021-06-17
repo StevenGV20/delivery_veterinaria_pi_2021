@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -78,6 +79,11 @@ public class ServicioServiceImpl  implements ServicioService{
 	@Override
 	public List<Servicio> listaServicioByPrecioMayor() {
 		return repository.listaServicioByPrecioMayor();
+	}
+
+	@Override
+	public List<Servicio> listaServiciosByPage(Pageable pageable) {
+		return repository.listaServicioByPage(pageable);
 	}
 
 }
