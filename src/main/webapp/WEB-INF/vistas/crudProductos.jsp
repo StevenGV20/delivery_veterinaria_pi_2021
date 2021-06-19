@@ -380,6 +380,7 @@
     <script src="js/sb-admin-2.min.js"></script>
 	<script src="js/global.js"></script>
     <script src="popup.js"></script>
+    <script src="js/cargaImagenes.js"></script>
     
 	
 	<script type="text/javascript" src="js/jquery.min.js"></script>
@@ -488,6 +489,8 @@ function limpiar(){
 }
 
 function listarTabla(){
+	 $('#idTableProductos').DataTable().clear();
+	 $('#idTableProductos').DataTable().destroy();
 	$('#idTableProductos tbody').append('<tr><td class="loading text-center mb-5" colspan="10"><img src="img/cargando.gif" width="10%" alt="loading" /><br/>Un momento, por favor...</td> </tr>');
 	$.getJSON("listaProductos",{},function(lista, q, t){
 		console.log(lista);

@@ -9,11 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.veterinaria.entity.Servicio;
@@ -83,13 +80,14 @@ public class ServicioController {
 		return servicio;
 	}
 	
-	@PostMapping("/mantenerServicio")
-	public String mantenerServicio(@RequestParam(name = "file",required= false)
-		MultipartFile foto, Servicio obj,RedirectAttributes flash) {
-		//Map<String, Object> salida=new HashMap<String, Object>();
+	@RequestMapping("/mantenerServicio")
+	@ResponseBody
+	public Map<String, Object>  mantenerServicio(/*@RequestParam(name = "file",required= false)
+		MultipartFile foto, */Servicio obj,RedirectAttributes flash) {
+		Map<String, Object> salida=new HashMap<String, Object>();
 		System.out.println("Aqui esta");
-		if(!foto.isEmpty()) {
-			
+		//if(!foto.isEmpty()) {
+			/*
 			try {
 				System.out.println("Parte 2");
 				service.guardarFotoServicio(foto);
@@ -97,20 +95,22 @@ public class ServicioController {
 				System.out.println("leyo la foto");
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
+			}*/
 			Optional<Servicio> option = service.buscarServicioxID(obj.getIdservicio());
+			//System.out.println("FECHA HOY"+LocalTime.now());
+			//obj.setHoraInicio(obj.getHoraInicio().getMinutes()-10);
 			service.mantenerServicio(obj);
 			//flash.addFlashAttribute("CORRECTO","Foto subida");
 			if(!option.isPresent())
-				flash.addFlashAttribute("CORRECTO","Se registro correctamente");
+				salida.put("mensaje","Se registro correctamente");
 			else 
-				flash.addFlashAttribute("CORRECTO","Se actualizo correctamente");
-			return "redirect:/verCrudServicios";
-		}
-		else {
+				salida.put("mensaje","Se actualizo correctamente");
+			return salida;
+		//}
+		/*else {
 			flash.addFlashAttribute("ERROR",Constantes.MENSAJE_REG_ERROR);
 			return "redirect:/verCrudServicios";
-		}
+		}*/
 	}
 	
 	@RequestMapping("/eliminaServicio")

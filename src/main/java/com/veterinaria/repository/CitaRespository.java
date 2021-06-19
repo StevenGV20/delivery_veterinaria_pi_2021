@@ -16,4 +16,7 @@ public interface CitaRespository extends JpaRepository<Cita, Integer>{
 	
 	@Query("Select c from Cita c where c.veterinario.idusuario = :usu")
 	public abstract List<Cita> listaCitaByVeterinario(@Param("usu")int usu);
+	
+	@Query("Select c from Cita c where c.historial.idhistorial = :cod")
+	public abstract List<Cita> listaCitasByHistorial(@Param("cod")int cod);
 }

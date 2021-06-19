@@ -1,5 +1,6 @@
 package com.veterinaria.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.veterinaria.entity.Especie;
+import com.veterinaria.entity.Historial;
 import com.veterinaria.entity.Mascota;
 import com.veterinaria.entity.Usuario;
 import com.veterinaria.services.MascotaService;
@@ -105,6 +107,11 @@ public class MascotaController {
 					if (objSalida == null) {
 						salida.put("mensaje", Constantes.MENSAJE_REG_ERROR);
 					}else {
+						Historial his=new Historial();
+						his.setFechaRegistro(new Date());
+						his.setFechaModificacion(new Date());
+						his.setMascota(objSalida);
+						mascotaService.registrarHisotrial(his);
 						salida.put("mensaje", Constantes.MENSAJE_REG_EXITOSO);
 					}					
 				}else {

@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.veterinaria.entity.Especie;
+import com.veterinaria.entity.Historial;
 import com.veterinaria.entity.Mascota;
 import com.veterinaria.repository.EspecieRepository;
+import com.veterinaria.repository.HistorialRepository;
 import com.veterinaria.repository.MascotaRepository;
 
 @Service
@@ -19,6 +21,9 @@ public class MascotaServiceImpl implements MascotaService{
 	
 	@Autowired 
 	private EspecieRepository esprepository;
+	
+	@Autowired 
+	private HistorialRepository historialRepository;
 		
 	@Override
 	public List<Especie> listaEspecie() {
@@ -48,4 +53,10 @@ public class MascotaServiceImpl implements MascotaService{
 	public void eliminaMascota(int id) {
 		repository.deleteById(id);
 	}
+
+	@Override
+	public Historial registrarHisotrial(Historial bean) {
+		return historialRepository.save(bean);
+	}
+
 }

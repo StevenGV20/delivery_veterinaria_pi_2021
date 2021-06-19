@@ -88,7 +88,7 @@
                                         </div>
                                         <div class="quantity">
                                             <h4>Horario:</h4>
-                                            <p>${requestScope.objServicio.horario} <!--<span>$149</span>--></p>
+                                            <p>${requestScope.objServicio.horaInicio} - ${requestScope.objServicio.horaFinal}<!--<span>$149</span>--></p>
                                         </div>
                                         <div class="quantity">
                                            <input type="text" hidden="" value="${requestScope.objServicio.idservicio}" id="idCodigo" name="idproducto">
@@ -97,7 +97,7 @@
                                         
                                         <c:if test="${sessionScope.objUsuario!=null}">
 	                                        <div class="action">
-	                                            <button class="btn btn-primary" id='btnSolicitar' data-toggle='modal'  data-target='#nuevo'><i class="fa fa-shopping-bag"></i> Solicitar</button>
+	                                            <button class="btn btn-primary" id='btnSolicitar' onclick="$('#nuevo').modal('show');"><i class="fa fa-shopping-bag"></i> Solicitar</button>
 	                                        </div>
                                         </c:if>
                                         <c:if test="${sessionScope.objUsuario==null}">
@@ -205,15 +205,22 @@
                     </div>
                     <form  method="post" action="" id="idRegistrar" data-toggle="validator" class="mt-3 form-horizontal">
                       <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                          	<label for="staticEmail">Fecha de Atención:</label>
 							<input class="form-control" id="idServicio" name="servicio.idservicio" hidden=""/>
 							<input class="form-control" type="date" id="idFecAtencion" name="fechaAtencion" placeholder="Ingrese Fecha de Atención"/>
                          </div> 
-                         <div class="col-md-6">
+                         <div class="col-md-4">
                          	<label for="staticEmail">Hora de Atención:</label>
 							<input class="form-control" type="time" id="idHoraAtencion" name="horaAtencion" placeholder="Ingrese Hora de Atención"/>
                          </div>
+                         <div class="col-md-4">
+                          	<label for="staticEmail">Elije tu mascota:</label>                       	
+							<select id="idMascota"  class="form-control" name="mascota">	
+								<option>[ Seleccione ]</option>
+								<option>No tienes ninguna Mascota</option>
+							</select>
+                        </div>     
                          <div class="col-md-12">
                          	<label for="staticEmail">Observaciones</label>
 							<textarea class="form-control" id="idObservaciones" name="observacion"></textarea>
@@ -221,7 +228,7 @@
                        
                         <div class="col-md-12 mt-2">
                           <button type="button" class="btn btn-primary" id="btnRegistrar">Registrar</button>  		
-        				  <button type="button" class="btn btn-danger" id="btnCancelar" data-dismiss="modal">Cancelar</button>
+        				  <button type="button" class="btn btn-danger" id="btnCancelar" onclick="$('#nuevo').modal('hide');">Cancelar</button>
                         </div>                        
                       </div>
                     </form>
@@ -360,7 +367,21 @@
         	var cod=$("#idCodigo").val();
         	$("#idServicio").val(cod);
         }));
+        
+        //
+        //var nom="<c:out value="${requestScope.objServicio.nombre}"/>";
 		
+        function listaMascotas(cli){
+        	$.getJSON("listaMascotasByCliente",{cod:cli},function(data, q,t){
+        		$("#idMascota").empty();
+        		$("#idMascota").append("<option>[ Seleccione ]</option>");
+    	        console.log(data);
+    			$.each(data,function(index,item){
+    				$("#idMascota").append("<option value='"+item.idmascota+"'>"+item.nombre+"</option>");
+    			})
+    	    })
+        }
+        
         function limpiarForm(){
     		//bloquear(false);
     		$("#idRegistrar").trigger("reset");
@@ -389,8 +410,8 @@
 		}
         
         	$(document).ready(function(){
-        		
-
+        		listaMascotas("<c:out value="${sessionScope.objUsuario.idusuario}"/>");	
+			
         	    $("#btnRegistrar").click(function(){
         	    	var validator = $('#idRegistrar').data('bootstrapValidator');
         		    validator.validate();
@@ -405,6 +426,7 @@
         			        		 mensajeError(data.mensaje);
         			        	 }else{
 									 mensajeGood(data.mensaje);
+        			        		 $('#nuevo').modal('hide');
             			        	 limpiarForm();
         			        	 }
         			          },

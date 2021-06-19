@@ -17,5 +17,14 @@ public class FunctionUtil {
 		return salida;
 	}
 	
-	
+	public static String toHoraString(Date str) {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm aa");
+		String salida = null;
+		try {
+			salida = sdf.format(str);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return salida;
+	}
 }

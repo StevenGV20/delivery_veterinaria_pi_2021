@@ -89,13 +89,13 @@
                 <div class="container-fluid text-center ">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 text-gray-800">Mis Pedidos</h1>
-                    <p class="">En esta seccion podras ver todos tus pedidos realizados y consultar el estado en que se encuentran.</p>
+                    <h1 class="h3 text-gray-800">CITAS SOLICITADAS</h1>
+                    <p class="">En esta seccion podras ver todos las citas realizados y consultar el estado en que se encuentran.</p>
 					<input value="${sessionScope.objUsuario.idrol.idrol}" id="txtIdRol" hidden=""/>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4 col-md-9" style="margin-left: 12%;">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Lista de Pedidos</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Lista de Citas</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -170,6 +170,8 @@
                           <fieldset class="form-group">
                          	<label for="staticEmail">Fecha de Atención:</label>
 							<input class="form-control" id="idCodigoCita" name="idcita" hidden=""/>
+							<input class="form-control" id="idHistorial" name="historial.idhistorial" hidden=""/>
+							<input class="form-control" id="idMascota" name="mascota.idmascota" hidden=""/>
 							<input class="form-control" type="date" id="idFecAtencion" name="fechaAtencion" placeholder="Ingrese Fecha de Atención"/>
                           </fieldset>
                         </div>
@@ -297,7 +299,7 @@
     
     <script type="text/javascript">  
 
-
+/*
 $(document).on("click","#verPedido",(function(){
 	var cod=$(this).parents('tr').find("td")[0].innerHTML;
 	$("#lblCodigo").text(cod);
@@ -319,7 +321,7 @@ $(document).on("click","#verPedido",(function(){
 	})
 	
 	//bloquear(false);
-}));
+}));*/
 /*
 function formatDate(timestamp) {
     console.log(timestamp);
@@ -366,8 +368,10 @@ $(document).on("click","#btnAsignar",(function(){
 		$("#idCodigoCita").val(data.idcita);//alert(data.fechaAtencion);
 		//alert(date);
 		//alert(getFormattedDate(date));
-		$("#idFecAtencion").val(getFormattedDate(date));
-		$("#idHoraAtencion").val(formatAMPM(time));
+		$("#idMascota").val(data.mascota.idmascota);
+		$("#idHistorial").val(data.historial.idhistorial);
+		$("#idFecAtencion").val(data.fechaAtencion);
+		$("#idHoraAtencion").val(data.horaAtencion);
 		$("#idServicio").val(data.servicio.idservicio);
 		$("#idNomServicio").val(data.servicio.nombre);
 		$("#idCliente").val(data.cliente.idusuario);

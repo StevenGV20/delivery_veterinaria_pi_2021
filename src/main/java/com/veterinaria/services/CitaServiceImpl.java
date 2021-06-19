@@ -1,5 +1,6 @@
 package com.veterinaria.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,12 +9,16 @@ import org.springframework.stereotype.Service;
 
 import com.veterinaria.entity.Cita;
 import com.veterinaria.repository.CitaRespository;
+import com.veterinaria.repository.HistorialRepository;
 
 @Service
 public class CitaServiceImpl implements CitaService{
 
 	@Autowired
 	private CitaRespository repository;
+	
+	@Autowired 
+	private HistorialRepository historialRepository;
 	
 	@Override
 	public List<Cita> listarCita() {
@@ -33,6 +38,7 @@ public class CitaServiceImpl implements CitaService{
 
 	@Override
 	public Cita mantenerCita(Cita bean) {
+		//historialRepository.actualizaModificacion(new Date(), bean.getHistorial().getIdhistorial());
 		return repository.save(bean);
 	}
 
@@ -54,6 +60,11 @@ public class CitaServiceImpl implements CitaService{
 	@Override
 	public Optional<Cita> listarCitaById(int cod) {
 		return repository.findById(cod);
+	}
+
+	@Override
+	public List<Cita> listarCitaByHistorial(int cod) {
+		return repository.listaCitasByHistorial(cod);
 	}
 
 }

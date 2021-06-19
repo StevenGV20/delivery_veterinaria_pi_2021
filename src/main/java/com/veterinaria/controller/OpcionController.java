@@ -77,6 +77,11 @@ public class OpcionController {
 		return "tablesConsultas";
 	}
 	
+	@RequestMapping("/verTablesDiagnostico")
+	public String verTablesDiagnostico() {
+		return "tablesDiagnostico";
+	}
+	
 	@RequestMapping("/verTablesIncidencias")
 	public String verTablesIncidencias() {
 		return "tablesIncidencias";

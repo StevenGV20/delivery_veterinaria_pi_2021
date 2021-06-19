@@ -196,7 +196,7 @@
                     <div class="section-heading">
                       <h2>Registrar Servicio</h2>
                     </div>
-                    <form  method="post" action="mantenerServicio" id="idRegistrar" data-toggle="validator" enctype="multipart/form-data" class="mt-3 form-horizontal">
+                    <form  method="post" action="" id="idRegistrar" data-toggle="validator" enctype="multipart/form-data" class="mt-3 form-horizontal">
                       <div class="row">
                         <div class="col-md-6">
                           <fieldset class="form-group">
@@ -214,10 +214,23 @@
 							<textarea class="input"  name="descripcion" id="idDescripcion" placeholder="Ingresar Descripcion"></textarea>
                           </fieldset>
                         </div>
+                        <!-- 
                         <div class="col-md-6">
                           <fieldset>
                           	<label>Horario del servicio:</label>    
 							<input type="text" class="input"  name="horario" id="idHorario" placeholder="Ingresar Horario del Servicio">
+                          </fieldset>
+                        </div> -->
+                        <div class="col-md-6">
+                          <fieldset>
+                          	<label>Hora de Inicio:</label>    
+							<input type="time" class="input"  name="horaInicio" id="idInicio" placeholder="Ingresar Horario del Servicio">
+                          </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                          <fieldset>
+                          	<label>Hora de Fin:</label>    
+							<input type="time" class="input"  name="horaFinal" id="idFinal" placeholder="Ingresar Horario del Servicio">
                           </fieldset>
                         </div>
                         <!-- 
@@ -240,14 +253,14 @@
                           <fieldset>
                          	<label>Subir Imagen:</label>  
                          	<input name="foto" id="fotos1" value="img/image-not-found.png" hidden=""/>
-                         	<img id="foto1" src="img/image-not-found.png" class="card-img-top img-card"/>                           	
-							<input type="file" class="input" onchange="uploadImage(0)" name="files" id="idFoto" placeholder="Ingresar Foto">
+                         	<img id="foto1" src="img/image-not-found.png" class="card-img-top img-card"/>                              	
+							<input type="file" class="input" onchange="uploadImage(0);"  name="files" id="idImagen1" placeholder="Ingresar Foto1">
                           </fieldset>
                         </div>
                         
                        
                         <div class="col-md-12 mt-2">
-                          <button type="submit" class="btn__submit" id="btnRegistrar">Registrar</button>  		
+                          <button type="button" class="btn__submit" id="btnRegistrar">Registrar</button>  		
         				  <button type="button" class="btn__reset" id="btnCancelar" data-dismiss="modal">Cancelar</button>
                         </div>
                         
@@ -347,6 +360,7 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 	<script src="js/global.js"></script>
+	<script src="js/cargaImagenes.js"></script>
     <script src="popup.js"></script>
     
 	
@@ -381,7 +395,11 @@ $(document).on("click","#btnEditar",(function(){
 		$("#idPrecio").val(data.precio);
 		$("#idDescripcion").val(data.descripcion);
 		$("#idHorario").val(data.horario);
+		$("#idInicio").val(data.horaInicio);
+		$("#idFinal").val(data.horaFinal);
 		$("#idCategoria").val(data.idcategoria.idcategoria);
+		$("#foto1").attr("src",data.foto);
+		$("#fotos1").val(data.foto);
 		//$("#idFecha").val(data.fecha);
 	})
 	bloquear(false);
@@ -406,6 +424,8 @@ function bloquear(b){
 }
 
 function listarTabla(){
+	 $('#tbServicios').DataTable().clear();
+	 $('#tbServicios').DataTable().destroy();
 	$('#tbServicios tbody').append('<tr><td class="loading text-center mb-5" colspan="10"><img src="img/cargando.gif" width="10%" alt="loading" /><br/>Un momento, por favor...</td> </tr>');
 	$.getJSON("listaServicios",{},function(lista, q, t){
 		console.log(lista);
@@ -414,7 +434,7 @@ function listarTabla(){
 		var editar="<button type='button' class='btn btn-success' id='btnEditar' data-toggle='modal'  data-target='#nuevo'>Editar</button>";
 		var eliminar="<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#eliminar' id='btnEliminar'>Eliminar</button>";
 		$.each(lista,function(index,item){
-			$("#tbServicios tbody").append("<tr><td>"+item.idservicio+"</td><td>"+item.nombre+"</td><td style='width:40%;'>"+item.descripcion+"</td><td>"+item.horario+"</td><td>"+
+			$("#tbServicios tbody").append("<tr><td>"+item.idservicio+"</td><td style='width:15%;'>"+item.nombre+"</td><td style='width:25%;'>"+item.descripcion+"</td><td>Hora Inicio: "+item.horaInicio+"<br>Hora Final: "+item.horaFinal+"</td><td>"+
 					parseFloat(item.precio).toFixed(2)+"</td><td>"+item.idcategoria.nombre+"</td><td><img src='"+item.foto+"'  alt='No existe' style='width: 200px;'/></td><td>"+editar+"</td><td>"+eliminar+"</td></tr>");
 		})
 		//$("#tbServicios img").css("width","100%");
@@ -441,7 +461,17 @@ $(document).ready( function () {
 			$("#idCategoria").append("<option value='"+item.idcategoria+"'>"+item.nombre+"</option>");
 		})
     })
-    
+
+
+    function limpiarForm(){
+    	var cod=$("#idCodCliente").val();
+    	$("#idRegistrar").trigger("reset");
+    	$("#idRegistrar").data("bootstrapValidator").resetForm(true);
+    	$("#idCodigo").val("0");
+    	$("#idCategoria").val("[ Seleccione ]");
+    	$("#foto1").attr("src","img/image-not-found.png");
+    	$("#fotos1").val("img/image-not-found.png");
+    }
     
     $("#btnCancelar").click(function(){
 		//alert("hola");
@@ -450,6 +480,26 @@ $(document).ready( function () {
 		$("#idRegistrar").data("bootstrapValidator").resetForm(true);
 		$("#idCodServicio").val("0");
     });
+     
+     $("#btnRegistrar").click(function(){
+	    	var validator = $('#idRegistrar').data('bootstrapValidator');
+		    validator.validate();
+		    if (validator.isValid()) {
+			  	$.ajax({
+			          type: "POST",
+			          url: "mantenerServicio", 
+			          data: $('#idRegistrar').serialize(),
+			          success: function(data){
+			        	  mostrarMensaje(data.mensaje);
+			        	  limpiarForm();
+			        	  listarTabla();
+			          },
+			          error: function(){
+			        	  mostrarMensaje(MSG_ERROR);
+			          }
+			     });
+		    }
+		  });
      
      $("#btn_eliminar").click(function(){
     	 $("#eliminar").modal("hide");

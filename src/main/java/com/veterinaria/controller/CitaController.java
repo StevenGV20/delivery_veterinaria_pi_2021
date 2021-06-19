@@ -1,5 +1,6 @@
 package com.veterinaria.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,14 +16,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.veterinaria.entity.Cita;
+import com.veterinaria.entity.Historial;
+import com.veterinaria.entity.Servicio;
 import com.veterinaria.entity.Usuario;
 import com.veterinaria.services.CitaService;
+import com.veterinaria.services.DiagnosticoService;
+import com.veterinaria.services.ServicioService;
 import com.veterinaria.util.Constantes;
 
 @Controller
 public class CitaController {
 	@Autowired
 	private CitaService citaService;
+
+	@Autowired
+	private DiagnosticoService diagnosticoService;
+	
+	@Autowired
+	private ServicioService servicioService;
 	
 	@RequestMapping("/listAll")
 	@ResponseBody
@@ -30,6 +41,7 @@ public class CitaController {
 		List<Cita> lista= citaService.listarCita();
 		return lista;
 	}
+	
 	
 	@RequestMapping("/buscaCitaById")
 	@ResponseBody
@@ -53,7 +65,7 @@ public class CitaController {
 		}
 		return "listaCitas";
 	}
-	
+
 	
 	@RequestMapping(value = "/mantenerCita")
 	@ResponseBody
@@ -68,14 +80,27 @@ public class CitaController {
 				salida.put("estado", 0);
 				return salida;
 			}else {
-				obj.setCliente(cliente);
-				obj.setEstado("PENDIENTE");
-				objSalida = citaService.mantenerCita(obj);
-				salida.put("estado", 1);
-				if(objSalida==null)
-					salida.put("mensaje", Constantes.MENSAJE_REG_ERROR);
-				else
-					salida.put("mensaje", Constantes.MENSAJE_REG_EXITOSO);				
+				System.out.println("SERVICIO: "+obj.getServicio().getIdservicio());
+				Optional<Servicio> servicio=servicioService.buscarServicioxID(obj.getServicio().getIdservicio());
+				Date inicio=new SimpleDateFormat("HH:mm").parse(servicio.get().getHoraInicio().toString());
+				Date h_final =new SimpleDateFormat("HH:mm").parse(servicio.get().getHoraFinal().toString());
+				if(obj.getHoraAtencion().after(inicio) && obj.getHoraAtencion().before(h_final)) {
+					Historial his=diagnosticoService.listaHistorialByMascota(obj.getMascota().getIdmascota()).get();
+					System.out.println(his.getIdhistorial());
+					obj.setCliente(cliente);
+					obj.setHistorial(his);
+					obj.setEstado("PENDIENTE");
+					objSalida = citaService.mantenerCita(obj);
+					salida.put("estado", 1);
+					if(objSalida==null)
+						salida.put("mensaje", Constantes.MENSAJE_REG_ERROR);
+					else
+						salida.put("mensaje", Constantes.MENSAJE_REG_EXITOSO);	
+				}else {
+					salida.put("mensaje", "La cita debe ser a la hora disponible para el servicio");
+					salida.put("estado", 0);
+					return salida;
+				}
 			}
 		}catch (Exception e) {
 			salida.put("mensaje", Constantes.MENSAJE_REG_ERROR);
@@ -105,5 +130,7 @@ public class CitaController {
 		}
 		return "redirect:/verCitas";
 	}
+	
+	
 	
 }
