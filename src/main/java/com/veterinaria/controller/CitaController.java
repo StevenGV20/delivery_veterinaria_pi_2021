@@ -66,6 +66,13 @@ public class CitaController {
 		return "listaCitas";
 	}
 
+	@RequestMapping("/verCitasHoy")
+	public String verCitasHoy(HttpSession session,HttpServletRequest request) {
+		Usuario user=(Usuario)session.getAttribute("objUsuario");
+		List<Cita> lista=citaService.listaCitaHoy(user.getIdusuario());
+		request.setAttribute("citas", lista);
+		return "listaCitas";
+	}
 	
 	@RequestMapping(value = "/mantenerCita")
 	@ResponseBody
@@ -79,23 +86,31 @@ public class CitaController {
 				salida.put("mensaje", "Solo puede sacar cita con Fecha de Atencion a partir de mañana");
 				salida.put("estado", 0);
 				return salida;
-			}else {
+			}
+			else {
 				System.out.println("SERVICIO: "+obj.getServicio().getIdservicio());
 				Optional<Servicio> servicio=servicioService.buscarServicioxID(obj.getServicio().getIdservicio());
 				Date inicio=new SimpleDateFormat("HH:mm").parse(servicio.get().getHoraInicio().toString());
 				Date h_final =new SimpleDateFormat("HH:mm").parse(servicio.get().getHoraFinal().toString());
 				if(obj.getHoraAtencion().after(inicio) && obj.getHoraAtencion().before(h_final)) {
-					Historial his=diagnosticoService.listaHistorialByMascota(obj.getMascota().getIdmascota()).get();
-					System.out.println(his.getIdhistorial());
-					obj.setCliente(cliente);
-					obj.setHistorial(his);
-					obj.setEstado("PENDIENTE");
-					objSalida = citaService.mantenerCita(obj);
-					salida.put("estado", 1);
-					if(objSalida==null)
-						salida.put("mensaje", Constantes.MENSAJE_REG_ERROR);
-					else
-						salida.put("mensaje", Constantes.MENSAJE_REG_EXITOSO);	
+					List<Cita> verifica=citaService.listaCitaByDia(obj);
+					if(verifica.isEmpty()) {
+						Historial his=diagnosticoService.listaHistorialByMascota(obj.getMascota().getIdmascota()).get();
+						System.out.println(his.getIdhistorial());
+						obj.setCliente(cliente);
+						obj.setHistorial(his);
+						obj.setEstado("PENDIENTE");
+						objSalida = citaService.mantenerCita(obj);
+						salida.put("estado", 1);
+						if(objSalida==null)
+							salida.put("mensaje", Constantes.MENSAJE_REG_ERROR);
+						else
+							salida.put("mensaje", Constantes.MENSAJE_REG_EXITOSO);	
+					}else {
+						salida.put("mensaje", "La fecha y hora para la cita escogida ya esta reservada, por favor cambie de fecha");
+						salida.put("estado", 0);
+						return salida;
+					}
 				}else {
 					salida.put("mensaje", "La cita debe ser a la hora disponible para el servicio");
 					salida.put("estado", 0);

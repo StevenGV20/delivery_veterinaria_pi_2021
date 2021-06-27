@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     <c:if test="${sessionScope.objUsuario.idrol.idrol==null}">
     	<c:redirect url="/"/>
     </c:if>
@@ -98,12 +99,21 @@
                             <h6 class="m-0 font-weight-bold text-primary">Lista de Citas</h6>
                         </div>
                         <div class="card-body">
+                       <c:if test="${sessionScope.objUsuario.idrol.idrol==5}">
+	                        <div class="text-left mb-4">
+	                        	<a id="btnListaTodo" href="verCitas" class="btn btn-primary">Todas mis Citas</a>
+	                       		<a id="btnListaHoy" href="verCitasHoy" class="btn btn-success">Citas para Hoy</a>
+	                        </div>
+                       </c:if>
+                       
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="tbPedido" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                         	<th>ID</th>
                                             <th>Fecha de Registro</th>
+                                            <th>Fec. de Atencion</th>
+                                            <th>Hora de Atencion</th>
                                             <th>Estado</th>
                                             <th>Servicio</th>
                                             <c:if test="${(sessionScope.objUsuario.idrol.idrol==2) or (sessionScope.objUsuario.idrol.idrol==3)}">
@@ -115,7 +125,9 @@
                                     <tfoot>
                                         <tr>
                                         	<th>ID</th>
-                                            <th>Nombre del cliente</th>
+                                            <th>Fecha de Registro</th>
+                                            <th>Fec. de Atencion</th>
+                                            <th>Hora de Atencion</th>
                                             <th>Estado</th>
                                             <th>Servicio</th>
                                             <c:if test="${(sessionScope.objUsuario.idrol.idrol==2) or (sessionScope.objUsuario.idrol.idrol==3)}">
@@ -129,6 +141,8 @@
                                     		<tr>
 	                                        	<td>${item.idcita}</td>
 	                                            <td>${item.fechaRegistro}</td>
+	                                            <td><fmt:formatDate value="${item.fechaAtencion}" pattern="yyyy-MM-dd"/></td>
+	                                            <td><fmt:formatDate value="${item.horaAtencion}" pattern="HH:mm aa"/></td>
 	                                            <td>${item.estado}</td>
 	                                            <td>${item.servicio.nombre}</td>
 	                                            <c:if test="${sessionScope.objUsuario.idrol.idrol==2 || sessionScope.objUsuario.idrol.idrol==3}">
@@ -169,16 +183,16 @@
                         <div class="col-md-6">
                           <fieldset class="form-group">
                          	<label for="staticEmail">Fecha de Atención:</label>
-							<input class="form-control" id="idCodigoCita" name="idcita" hidden=""/>
+							<input class="form-control" id="idCodigoCita" name="idcita" hidden="" readonly="readonly"/>
 							<input class="form-control" id="idHistorial" name="historial.idhistorial" hidden=""/>
 							<input class="form-control" id="idMascota" name="mascota.idmascota" hidden=""/>
-							<input class="form-control" type="date" id="idFecAtencion" name="fechaAtencion" placeholder="Ingrese Fecha de Atención"/>
+							<input class="form-control" type="text" id="idFecAtencion" name="fechaAtencion" placeholder="Ingrese Fecha de Atención"/>
                           </fieldset>
                         </div>
                         <div class="col-md-6">
                           <fieldset>
 							<label for="staticEmail">Hora de Atención:</label>
-							<input class="form-control" type="time" id="idHoraAtencion" name="horaAtencion" placeholder="Ingrese Hora de Atención"/>
+							<input class="form-control" type="text" id="idHoraAtencion" name="horaAtencion" placeholder="Ingrese Hora de Atención"/>
                           </fieldset>
                         </div>
                         <div class="col-md-4">
@@ -359,6 +373,8 @@ function formatAMPM(date) {
 
 $(document).on("click","#btnAsignar",(function(){
 	var cod=$(this).parents('tr').find("td")[0].innerHTML;
+	var fec=$(this).parents('tr').find("td")[2].innerHTML;
+	var hor=$(this).parents('tr').find("td")[3].innerHTML;
 	//alert(cod);
 	$.getJSON("buscaCitaById",{cod:cod},function(data, q, t){
 		console.log(data);
@@ -370,8 +386,8 @@ $(document).on("click","#btnAsignar",(function(){
 		//alert(getFormattedDate(date));
 		$("#idMascota").val(data.mascota.idmascota);
 		$("#idHistorial").val(data.historial.idhistorial);
-		$("#idFecAtencion").val(data.fechaAtencion);
-		$("#idHoraAtencion").val(data.horaAtencion);
+		$("#idFecAtencion").val(fec);
+		$("#idHoraAtencion").val(hor);
 		$("#idServicio").val(data.servicio.idservicio);
 		$("#idNomServicio").val(data.servicio.nombre);
 		$("#idCliente").val(data.cliente.idusuario);
@@ -424,6 +440,8 @@ function listaVeterinario(){
 
 $(document).ready( function () {
 
+	$("#idRegistrar input").attr('readonly','readonly');
+	$("#idRegistrar textarea").attr('readonly','readonly');
 	$("#success-alert").fadeTo(2000,500).slideUp(500,function(){
 		$("#success-alert").slideUp(500);	
 	});
@@ -482,29 +500,6 @@ $(document).ready( function () {
                       },    
                   }    
               },
-              Fecha: {
-        	    	selector:'#idFecAtencion',   
-                       validators: {    
-                     	  notEmpty: {    
-	                            
-                     		  message: 'Ingrese Hora de Atencion'    
-  	                          	},      
-  	                            	date: {        
-  	                                message: 'Ingrese una fecha valida'
-  	                            },   
-                       }    
-               },
-              HoraAte: {
-      	    	selector:'#idHoraAtencion',   
-                     validators: {    
-                         notEmpty: {    
-                             message: 'Ingrese Hora de Atencion'    
-                        	},      
-                          	time: {        
-                              message: 'Ingrese una hora valida'    
-                          },     
-                     }    
-                 },
                 Observaciones: {
          	    	selector:'#idObservaciones',   
                         validators: {    

@@ -46,7 +46,7 @@ public class HistorialController {
 	@RequestMapping(value = "/listaHistorialByMascota")
 	@ResponseBody
 	public Optional<Historial> listaHistorialByMascota(int id){
-		Optional<Historial> historial=serviceDiagnostico.buscaHistorialById(id);
+		Optional<Historial> historial=serviceDiagnostico.listaHistorialByMascota(id);
 		return historial;
 	}
 	

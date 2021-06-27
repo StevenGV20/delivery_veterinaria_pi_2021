@@ -16,5 +16,6 @@ public interface CitaService {
 	public abstract Optional<Cita> listarCitaById(int cod);
 	public abstract Cita mantenerCita(Cita bean);
 	public abstract void eliminaCita(int codigo);
-	
+	public abstract List<Cita> listaCitaByDia(Cita bean);
+	public abstract List<Cita> listaCitaHoy(int idusuario);
 }

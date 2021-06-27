@@ -205,22 +205,28 @@
                     </div>
                     <form  method="post" action="" id="idRegistrar" data-toggle="validator" class="mt-3 form-horizontal">
                       <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                          	<label for="staticEmail">Fecha de Atención:</label>
 							<input class="form-control" id="idServicio" name="servicio.idservicio" hidden=""/>
 							<input class="form-control" type="date" id="idFecAtencion" name="fechaAtencion" placeholder="Ingrese Fecha de Atención"/>
                          </div> 
-                         <div class="col-md-4">
+                         <div class="col-md-6">
                          	<label for="staticEmail">Hora de Atención:</label>
 							<input class="form-control" type="time" id="idHoraAtencion" name="horaAtencion" placeholder="Ingrese Hora de Atención"/>
                          </div>
-                         <div class="col-md-4">
+                         <div class="col-md-6">
                           	<label for="staticEmail">Elije tu mascota:</label>                       	
 							<select id="idMascota"  class="form-control" name="mascota">	
 								<option>[ Seleccione ]</option>
 								<option>No tienes ninguna Mascota</option>
 							</select>
                         </div>     
+                        <div class="col-md-6">
+                         	<label>Elige un Veterinario:</label>    
+							<select id="idVeterinario"  class="form-control" name="veterinario.idusuario">	
+								<option>[ Seleccione ]</option>
+							</select>
+                        </div>
                          <div class="col-md-12">
                          	<label for="staticEmail">Observaciones</label>
 							<textarea class="form-control" id="idObservaciones" name="observacion"></textarea>
@@ -381,7 +387,18 @@
     			})
     	    })
         }
-        
+
+        function listaVeterinario(){
+        	//alert("hola");
+        	$.getJSON("listaUsuarioByRol",{cod:5},function(listar, q, t){
+        		console.log(listar);
+        		$.each(listar,function(index,item){
+        			$("#idVeterinario").append("<option value='"+item.idusuario+"'>"+item.nombre+" "+item.apellido+"</option>");
+        		})
+        	})
+        }
+
+
         function limpiarForm(){
     		//bloquear(false);
     		$("#idRegistrar").trigger("reset");
@@ -411,7 +428,8 @@
         
         	$(document).ready(function(){
         		listaMascotas("<c:out value="${sessionScope.objUsuario.idusuario}"/>");	
-			
+        		listaVeterinario();
+        		
         	    $("#btnRegistrar").click(function(){
         	    	var validator = $('#idRegistrar').data('bootstrapValidator');
         		    validator.validate();

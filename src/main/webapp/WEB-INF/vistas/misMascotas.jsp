@@ -116,6 +116,7 @@
 								            <th></th>
 								            <th></th>
 								            <th></th>
+								            <th></th>
 								        </tr>
                                     </thead>
                                     <tfoot>
@@ -127,6 +128,7 @@
 								            <th>Fecha de Nacimiento</th>
 								            <th>Especie</th>
 								            <th>Cliente</th>
+								            <th></th>
 								            <th></th>
 								            <th></th>
 								            <th></th>
@@ -144,6 +146,7 @@
 									            <td class="">${item.cliente.nombre}</td>
 									            <td class=""><a href="#" id="btnEditar"  class="btn btn-success" data-toggle="modal" data-target="#nuevo">Editar</a></td>
 									            <td class=""><a href="#" id="btnEliminar"  class="btn btn-danger" data-toggle="modal" data-target="#eliminar">Eliminar</a></td>
+									            <td class=""><a href="verTablesDiagnostico?codMas=${item.idmascota}" id="btnHistorial"  class="btn btn-warning" >Historial</a></td>
 									        </tr>
                                     	</c:forEach>
                                     </tbody>
@@ -376,12 +379,13 @@ function listarMascotas(){
 		
 		var editar="<button type='button' class='btn btn-success' id='btnEditar' data-toggle='modal'  data-target='#nuevo'>Editar</button>";
 		var eliminar="<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#eliminar' id='btnEliminar'>Eliminar</button>";
+		var historial="<button type='button' class='btn btn-warning' >Ver Historial</button>";
 
 		$("#dataTable tbody").empty();
 		$.each(listar,function(index,item){
 			$("#dataTable tbody").append("<tr><td>"+item.idmascota+"</td><td>"+item.nombre+"</td><td>"+item.raza+"</td><td>"+item.sexo+
 					"</td><td>"+item.fechaNacimiento+"</td><td>"+item.idespecie.nombre+"</td><td>"+
-					item.cliente.nombre+" "+item.cliente.apellido+"</td><td>"+editar+"</td><td>"+eliminar+"</td></tr>");
+					item.cliente.nombre+" "+item.cliente.apellido+"</td><td>"+editar+"</td><td>"+eliminar+"</td><td>"+historial+"</td></tr>");
 		})
 		  $("#dataTable").DataTable();
     })

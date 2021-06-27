@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+       <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -96,8 +97,11 @@
                         </div>
                         
                         <div class="card-body">
+                        <c:if test="${sessionScope.objUsuario.idrol.idrol>1}">
+                        
                         	<button type='button' class='btn btn-primary' id='btnBuscar' data-toggle='modal' data-target='#buscaHistorial'>Busca Historial</button>
                         	<button type='button' class='btn btn-primary float-right mr-5' onclick="$('#nuevoDiagnostico').modal('show');bloquearForm(false);limpiarFormConsulta();" id='btnAgregar'><i class="fas fa-plus-circle"></i> Registrar Diagnostico</button>
+                        </c:if>
                         	<div class="row col-md-10 mt-3">
                         		<div class="col-md-4 form-group">
 		                         	<label class="col-md-12">Nombre::</label>
@@ -174,19 +178,17 @@
                                     <thead>
                                         <tr>
                                         	<th>ID</th>
-                                            <th>Nombre</th>
-                                            <th>Servicio</th>
+                                            <th>Fecha Registro</th>
+                                            <th>Fecha Atencion</th>
                                             <th>Fecha de Consulta</th>
-                                            <th>Ver</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                         	<th>ID</th>
-                                            <th>Nombre</th>
-                                            <th>Consulta</th>
+                                            <th>Fecha Registro</th>
+                                            <th>Fecha Atencion</th>
                                             <th>Fecha de Consulta</th>
-                                            <th>Ver</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>                                       
@@ -211,9 +213,11 @@
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-md-12">
+                  <c:if test="${sessionScope.objUsuario.idrol.idrol>1}">
                     <div class="section-heading">
                       <h2>Buscar Historial</h2>
                     </div>
+                   </c:if>
                     <div class="table-responsive">
                                 <table class="table table-bordered table-hover" id="tbHistorial" width="100%" cellspacing="0">
                                     <thead>
@@ -326,6 +330,8 @@
             </div>
         </div>
     </div>
+    
+    <c:out value="${requestScope.codMas}"/>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -409,13 +415,12 @@ function listarCitas(cod){
 	 $('#tbCitas').DataTable().destroy();
 	$.getJSON("listaCitaByHistorial",{cod:cod},function(listar, q, t){
 		var editar="<button type='button' class='btn btn-success' id='btnEditar' data-toggle='modal'  data-target='#nuevo'>Editar</button>";
-		var eliminar="<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#eliminar' id='btnEliminar'>RESPONDER</button>";
 
 		$("#tbCitas tbody").empty();
 		$.each(listar,function(index,item){
 			
 			$("#tbCitas tbody").append("<tr><td>"+item.idcita+"</td><td>"+item.fechaRegistro+"</td><td>"+item.fechaAtencion+"</td><td>"+item.estado+
-					"</td><td>"+eliminar+"</td></tr>");
+					"</td></tr>");
 		})
 		  $("#tbCitas").DataTable();
 	})
@@ -464,6 +469,25 @@ $(document).ready( function () {
 		$("#success-alert").slideUp(500);	
 	});
     
+	if("<c:out value="${param.codMas}"/>"!=null){
+		//alert("hola");
+		var codi="<c:out value="${param.codMas}"/>";
+		//alert(codi);
+		var cod=parseInt(codi);
+		$.getJSON("listaHistorialByMascota",{id:cod},function(data){
+			console.log(data);
+			$("#id_historial").val(data.idhistorial);
+			$("#idMascotaNom").val(data.mascota.nombre);
+			$("#idMascotaFecReg").val(data.fechaRegistro);
+			$("#idMascotaEdad").val(data.mascota.edad);
+			$("#idMascotaFecNac").val(data.mascota.fechaNacimiento);
+			$("#idMascotaCli").val(data.mascota.cliente.nombreCompleto);
+			listarCitas(data.idhistorial);
+			listarDiagnosticos(data.idhistorial);
+	    })
+	    
+	}
+	
     //alert("Hola");
     listaHistorial();
     

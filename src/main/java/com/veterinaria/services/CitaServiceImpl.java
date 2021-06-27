@@ -67,4 +67,14 @@ public class CitaServiceImpl implements CitaService{
 		return repository.listaCitasByHistorial(cod);
 	}
 
+	@Override
+	public List<Cita> listaCitaByDia(Cita bean) {
+		return repository.listaCitaByDia(bean.getFechaAtencion(), bean.getHoraAtencion(), bean.getVeterinario().getIdusuario());
+	}
+
+	@Override
+	public List<Cita> listaCitaHoy(int idusuario) {
+		return repository.listaCitaHoy(new Date(), idusuario);
+	}
+
 }
