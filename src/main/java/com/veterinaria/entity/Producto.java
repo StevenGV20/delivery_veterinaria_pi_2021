@@ -36,6 +36,7 @@ public class Producto {
 	private int stock;
 	private String marca;
 	private String descripcionSimple;
+	@Column (name = "descripcionHTML")
 	private String descripcionHTML;
 	private String foto1;
 	private String foto2;
